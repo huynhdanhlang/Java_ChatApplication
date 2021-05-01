@@ -20,8 +20,8 @@ import java.util.ArrayList;
  * @author ASUS
  */
 public class Server extends Thread{
-  public ArrayList<BufferedWriter> clients;           
-  public  ServerSocket server; 
+  public static ArrayList<BufferedWriter> clients;           
+  public static ServerSocket server; 
   private String nome;
   private Socket con;
   private InputStream in;  
@@ -54,14 +54,15 @@ public class Server extends Thread{
 public void run(){
                       
   try{
-                                     
+    System.out.println("Hello I'm server.");                  
     String msg;
     OutputStream ou =  this.con.getOutputStream();
     Writer ouw = new OutputStreamWriter(ou);
     BufferedWriter bfw = new BufferedWriter(ouw); 
-     clients.add(bfw);
+    System.out.println(bfw);
+    clients.add(bfw);
     nome = msg = bfr.readLine();
-              
+    System.out.println("Day la msg client"+msg+"eee");
     while(!"Logout".equalsIgnoreCase(msg) && msg != null)
       {           
        msg = bfr.readLine();
@@ -84,6 +85,7 @@ public void sendToAll(BufferedWriter bwOutput, String msg) throws  IOException
    bwS = (BufferedWriter)bw;
    if(!(bwOutput == bwS)){
      bw.write(nome + " -> " + msg+"\r\n");
+       System.out.println("Day la nome"+nome);
      bw.flush(); 
    }
   }          

@@ -4,7 +4,10 @@
  * and open the template in the editor.
  */
 package Server_GUI;
+
 import Server_GUI.Server;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -14,6 +17,8 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Timer;
+
 /**
  *
  * @author ASUS
@@ -25,11 +30,11 @@ public class ServerGUI extends javax.swing.JFrame {
      */
     public ServerGUI() {
         initComponents();
-        
+
         jTextArea_address.setText("127.0.0.1");
         jTextArea_port.setText("7880");
     }
-    
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -66,6 +71,7 @@ public class ServerGUI extends javax.swing.JFrame {
             }
         });
 
+        jTextArea_content.setEditable(false);
         jTextArea_content.setColumns(20);
         jTextArea_content.setRows(5);
         jScrollPane1.setViewportView(jTextArea_content);
@@ -111,32 +117,43 @@ public class ServerGUI extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    Server s;
     private void jButton_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_connectActionPerformed
         String addr = jTextArea_address.getText();
         String p = jTextArea_port.getText();
         int port = Integer.valueOf(p);
-        int backlog= 100;
-        jTextArea_content.append("Address:"+addr+"Port:"+port);
-        jTextArea_content.append("Waiting for connection...");
-
+        int backlog = 100;
         try {
-            Server s = new Server();
-            s.server =  new ServerSocket(port,backlog,InetAddress.getByName(addr));
+            s = new Server();
+            s.server = new ServerSocket(port, backlog, InetAddress.getByName(addr));
+            System.out.println(s.server);
             s.clients = new ArrayList<BufferedWriter>();
-            
-            while(true){
-                Socket con = s.server.accept();
-                jTextArea_content.append("Client connected...");
-                Thread thread = new Server(con);
-                thread.start();
-            }
-            
+            jTextArea_content.append("Starting server at " + "address:" + addr + " port:" + port);
+            jTextArea_content.append("\n\rWaiting for connection...");
+            //Create new Thread prevent button is freezed
+            Thread t = new Thread(() -> {
+                try {
+                    while(true){
+                    System.out.println("fff");
+                    Socket con = s.server.accept();
+                    System.out.println("Client connected...");
+                    jTextArea_content.append("\n\rClient connected...");
+                    //Create a Thread new connect
+                    Thread t1 = new Server(con);
+                    t1.start();
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            });
+            t.setDaemon(true);
+            t.start();
         } catch (UnknownHostException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
             Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
+
     }//GEN-LAST:event_jButton_connectActionPerformed
 
     /**
