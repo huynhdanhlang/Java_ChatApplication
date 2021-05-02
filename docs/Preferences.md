@@ -1,0 +1,2 @@
+- [http://mrbool.com/creating-a-multithreaded-chat-with-socket-in-java/34275](http://mrbool.com/creating-a-multithreaded-chat-with-socket-in-java/34275)
+- [https://howtodoinjava.com/java/java-security/java-aes-encryption-example/](https://howtodoinjava.com/java/java-security/java-aes-encryption-example/)
