@@ -126,17 +126,15 @@ public class ServerGUI extends javax.swing.JFrame {
         try {
             s = new Server();
             s.server = new ServerSocket(port, backlog, InetAddress.getByName(addr));
-            System.out.println(s.server);
             s.clients = new ArrayList<BufferedWriter>();
             jTextArea_content.append("Starting server at " + "address:" + addr + " port:" + port);
-            jTextArea_content.append("\n\rWaiting for connection...");
+
             //Create new Thread prevent button is freezed
             Thread t = new Thread(() -> {
                 try {
                     while(true){
-                    System.out.println("fff");
+                    jTextArea_content.append("\n\rWaiting for connection...");
                     Socket con = s.server.accept();
-                    System.out.println("Client connected...");
                     jTextArea_content.append("\n\rClient connected...");
                     //Create a Thread new connect
                     Thread t1 = new Server(con);

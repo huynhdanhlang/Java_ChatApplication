@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package Server_GUI;
+import Server_GUI.ServerGUI;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -22,7 +24,7 @@ import java.util.ArrayList;
 public class Server extends Thread{
   public static ArrayList<BufferedWriter> clients;           
   public static ServerSocket server; 
-  private String nome;
+  public static String clientname;
   private Socket con;
   private InputStream in;  
   private InputStreamReader inr;  
@@ -53,21 +55,18 @@ public class Server extends Thread{
   */
 public void run(){
                       
-  try{
-    System.out.println("Hello I'm server.");                  
+  try{                  
     String msg;
     OutputStream ou =  this.con.getOutputStream();
     Writer ouw = new OutputStreamWriter(ou);
     BufferedWriter bfw = new BufferedWriter(ouw); 
-    System.out.println(bfw);
     clients.add(bfw);
-    nome = msg = bfr.readLine();
-    System.out.println("Day la msg client"+msg+"eee");
+    clientname=msg = bfr.readLine();
     while(!"Logout".equalsIgnoreCase(msg) && msg != null)
       {           
-       msg = bfr.readLine();
+       clientname=msg = bfr.readLine();
        sendToAll(bfw, msg);
-       System.out.println(msg);                                              
+       System.out.println(clientname);                                              
        }
                                      
    }catch (Exception e) {
@@ -84,8 +83,10 @@ public void sendToAll(BufferedWriter bwOutput, String msg) throws  IOException
   for(BufferedWriter bw :  clients){
    bwS = (BufferedWriter)bw;
    if(!(bwOutput == bwS)){
-     bw.write(nome + " -> " + msg+"\r\n");
-       System.out.println("Day la nome"+nome);
+        bw.write(msg+"\n");
+
+//    bw.write(nome + " -> " + msg+"\r\n");
+//       System.out.println("Day la nome"+nome);
      bw.flush(); 
    }
   }          

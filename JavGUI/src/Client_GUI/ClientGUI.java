@@ -82,17 +82,20 @@ public class ClientGUI extends javax.swing.JFrame {
         jPanel1.add(jTextField_nameclient);
         jTextField_nameclient.setBounds(51, 80, 90, 30);
 
+        jLabel5.setForeground(new java.awt.Color(255, 255, 51));
         jLabel5.setText("Your name:");
         jPanel1.add(jLabel5);
         jLabel5.setBounds(60, 60, 60, 16);
 
+        jLabel3.setForeground(new java.awt.Color(255, 255, 51));
         jLabel3.setText("port:");
         jPanel1.add(jLabel3);
         jLabel3.setBounds(330, 60, 30, 16);
 
+        jLabel4.setForeground(new java.awt.Color(255, 255, 51));
         jLabel4.setText("Server address:");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(180, 60, 80, 16);
+        jLabel4.setBounds(180, 60, 90, 16);
         jPanel1.add(jLabel1);
         jLabel1.setBounds(0, 0, 400, 400);
 
@@ -149,7 +152,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private void jButton_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_connectActionPerformed
         String host = jTextField_ip.getText();
         String port = jTextField_port.getText();
-
+        jTextField_nameclient.setEnabled(false);
         try {
             //Connect to server
             socket = new Socket(host, Integer.valueOf(port));
@@ -158,7 +161,7 @@ public class ClientGUI extends javax.swing.JFrame {
             ouw = new OutputStreamWriter(ou);
             bfw = new BufferedWriter(ouw);
             //Show on Server that Client is connected
-            bfw.write("\n\r"+jTextField_nameclient.getText() + " connected successfully" + "\n\r" + "--------------------------------------"+"\n\r");
+            bfw.write("\n"+jTextField_nameclient.getText() + " connected successfully\n");
             bfw.flush();
             listenMessage();
         } catch (IOException ex) {
@@ -174,6 +177,7 @@ public class ClientGUI extends javax.swing.JFrame {
             ouw.close();
             ou.close();
             socket.close();
+            jTextField_nameclient.setEnabled(true);
         } catch (IOException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -181,7 +185,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
     private void jButton_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendActionPerformed
         try {
-            senMessage(jTextField_messagecontent.getText());
+            senMessage(jTextField_nameclient.getText()+":"+jTextField_messagecontent.getText());
         } catch (IOException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -194,8 +198,8 @@ public class ClientGUI extends javax.swing.JFrame {
             chatArea.append("Disconnected");
         }
         else{
-            bfw.write(msg + "\n\r");
-            chatArea.append(jTextField_nameclient.getText() + ": " + msg + "\n\r");
+            bfw.write(msg + "\n");
+            chatArea.append(msg+"\n");
         }
        
         bfw.flush();
@@ -217,10 +221,10 @@ public class ClientGUI extends javax.swing.JFrame {
                         if(bfr.ready()){
                             msg = bfr.readLine();
                             if(msg.equals("Logout")){
-                                chatArea.append("Server out \n\r");
+                                chatArea.append("Server out \n");
                             }
                             else{
-                                chatArea.append(msg+"\n\r");
+                                chatArea.append(msg+"\n");
                             }
                         }
                     } catch (IOException ex) {
