@@ -1,15 +1,5 @@
 package Encrypt_Decrypt;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- *
- * @author admin
- */
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -18,12 +8,9 @@ import java.util.Base64;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
-/**
- *
- * @author user
- */
+
 public class EncryDecry {
-    
+
     private static SecretKeySpec secretKey;
     private static byte[] key;
     private static final String ALGORITHM = "AES";
@@ -40,8 +27,9 @@ public class EncryDecry {
             e.printStackTrace();
         }
     }
+
     // encrypt
-        public String encrypt(String strToEncrypt, String secret) {
+    public String encrypt(String strToEncrypt, String secret) {
         try {
             prepareSecreteKey(secret);
             Cipher cipher = Cipher.getInstance(ALGORITHM);
@@ -52,7 +40,8 @@ public class EncryDecry {
         }
         return null;
     }
-   //decrypt
+    //decrypt
+
     public String decrypt(String strToDecrypt, String secret) {
         try {
             prepareSecreteKey(secret);
@@ -64,7 +53,5 @@ public class EncryDecry {
         }
         return null;
     }
-   
 
-   
 }

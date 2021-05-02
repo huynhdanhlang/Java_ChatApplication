@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package Login_Sigup;
-
+import Server_GUI.ServerGUI;
+import Client_GUI.ClientGUI;
+import Server_GUI.Server;
 import com.mysql.cj.jdbc.result.ResultSetInternalMethods;
 import java.awt.Color;
 import javax.swing.BorderFactory;
@@ -315,9 +317,17 @@ public class Login_Form extends javax.swing.JFrame {
             if(rs.next()){
                 //show new Form
                 Menu_Form menu =new Menu_Form();
+                ServerGUI server = new ServerGUI();
+                ClientGUI client = new ClientGUI();
                 menu.setVisible(true);
+                server.setVisible(true);
+                client.setVisible(true);
                 menu.pack();
+                server.pack();
+                client.pack();
                 menu.setLocationRelativeTo(null);
+                server.setLocationRelativeTo(null);
+                client.setLocationRelativeTo(null);
                 this.dispose();
             }
             else{

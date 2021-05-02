@@ -205,9 +205,7 @@ public class ClientGUI extends javax.swing.JFrame {
     public void senMessage(String msg) throws IOException, BadLocationException {
 
         if (msg.equals("Logout")) {
-            bfw.write("Disconnected");
-
-            textPanel_append("Disconnected");
+            textPanel_append("Disconnected\n");
         } else {
             String encrypt = this.encrypt.encrypt(msg, secretKey);
             bfw.write(encrypt + "\n");

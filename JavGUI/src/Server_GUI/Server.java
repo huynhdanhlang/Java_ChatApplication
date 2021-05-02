@@ -6,7 +6,6 @@
 
 package Server_GUI;
 import Encrypt_Decrypt.EncryDecry;
-import Server_GUI.ServerGUI;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -25,7 +24,7 @@ import java.util.ArrayList;
 public class Server extends Thread{
   public static ArrayList<BufferedWriter> clients;           
   public static ServerSocket server; 
-  public static String clientname;
+  public String clientname;
   private Socket con;
   private InputStream in;  
   private InputStreamReader inr;  
@@ -65,12 +64,11 @@ public void run(){
     Writer ouw = new OutputStreamWriter(ou);
     BufferedWriter bfw = new BufferedWriter(ouw); 
     clients.add(bfw);
-    clientname=msg = bfr.readLine();
+    msg = bfr.readLine();
     while(!"Logout".equalsIgnoreCase(msg) && msg != null)
       {           
-       clientname = msg = bfr.readLine();
-       sendToAll(bfw, msg);
-       System.out.println(clientname);                                              
+       msg = bfr.readLine();
+       sendToAll(bfw, msg);                                            
        }
                                      
    }catch (Exception e) {
