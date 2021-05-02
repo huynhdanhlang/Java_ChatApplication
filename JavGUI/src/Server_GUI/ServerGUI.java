@@ -6,8 +6,6 @@
 package Server_GUI;
 
 import Server_GUI.Server;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -17,20 +15,19 @@ import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Timer;
+import Encrypt_Decrypt.EncryDecry;
 
 /**
  *
  * @author ASUS
  */
 public class ServerGUI extends javax.swing.JFrame {
-
     /**
      * Creates new form ServerGUI
      */
     public ServerGUI() {
         initComponents();
-
+        this.setLocationRelativeTo(null);
         jTextArea_address.setText("127.0.0.1");
         jTextArea_port.setText("7880");
     }
@@ -129,16 +126,16 @@ public class ServerGUI extends javax.swing.JFrame {
             s.clients = new ArrayList<BufferedWriter>();
             jTextArea_content.append("Starting server at " + "address:" + addr + " port:" + port);
 
-            //Create new Thread prevent button is freezed
+            //Create new Thread prevent button is freezed(Tránh vòng lặp làm đóng băng button)
             Thread t = new Thread(() -> {
                 try {
-                    while(true){
-                    jTextArea_content.append("\n\rWaiting for connection...");
-                    Socket con = s.server.accept();
-                    jTextArea_content.append("\n\rClient connected...");
-                    //Create a Thread new connect
-                    Thread t1 = new Server(con);
-                    t1.start();
+                    while (true) {
+                        jTextArea_content.append("\n\rWaiting for connection...");
+                        Socket con = s.server.accept();
+                        jTextArea_content.append("\n\rClient connected...");
+                        //Create a Thread new connect
+                        Thread t1 = new Server(con);
+                        t1.start();
                     }
                 } catch (IOException ex) {
                     Logger.getLogger(ServerGUI.class.getName()).log(Level.SEVERE, null, ex);

@@ -2,11 +2,6 @@ package Client_GUI;
 
 import Encrypt_Decrypt.EncryDecry;
 
-import java.awt.Color;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -18,20 +13,25 @@ import java.io.Writer;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class ClientGUI extends javax.swing.JFrame {
+
+    final static String secretKey = "secrete";
+    EncryDecry encrypt = new EncryDecry();
 
     public ClientGUI() {
         initComponents();
         this.setLocationRelativeTo(null);
-        
+
         jTextField_nameclient.setText("Lang");
         jTextField_ip.setText("127.0.0.1");
         jTextField_port.setText("7880");
+
     }
-    
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -47,11 +47,11 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        chatArea = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jButton_connect = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        chatArea = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -95,17 +95,9 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(255, 255, 51));
         jLabel4.setText("Server address:");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(180, 60, 90, 16);
+        jLabel4.setBounds(180, 60, 80, 16);
         jPanel1.add(jLabel1);
         jLabel1.setBounds(0, 0, 400, 400);
-
-        chatArea.setEditable(false);
-        chatArea.setColumns(20);
-        chatArea.setRows(5);
-        jScrollPane1.setViewportView(chatArea);
-
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(30, 140, 440, 160);
 
         jLabel2.setFont(new java.awt.Font("Myriad Pro", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -131,6 +123,11 @@ public class ClientGUI extends javax.swing.JFrame {
         jPanel1.add(jButton1);
         jButton1.setBounds(399, 10, 86, 22);
 
+        jScrollPane2.setViewportView(chatArea);
+
+        jPanel1.add(jScrollPane2);
+        jScrollPane2.setBounds(50, 122, 400, 150);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -149,6 +146,13 @@ public class ClientGUI extends javax.swing.JFrame {
     private OutputStream ou;
     private Writer ouw;
     private BufferedWriter bfw;
+
+    //Insert messsge into jTextPanel
+    public void textPanel_append(String str) throws BadLocationException {
+        StyledDocument document = (StyledDocument) chatArea.getDocument();
+        document.insertString(document.getLength(), str, null);
+    }
+
     private void jButton_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_connectActionPerformed
         String host = jTextField_ip.getText();
         String port = jTextField_port.getText();
@@ -160,8 +164,9 @@ public class ClientGUI extends javax.swing.JFrame {
             ou = socket.getOutputStream();
             ouw = new OutputStreamWriter(ou);
             bfw = new BufferedWriter(ouw);
-            //Show on Server that Client is connected
-            bfw.write("\n"+jTextField_nameclient.getText() + " connected successfully\n");
+            //Show on Client that Client is connected
+            String str = jTextField_nameclient.getText()+" "+"connected successfully";
+            bfw.write("\n"+encrypt.encrypt(str, secretKey)+"\n");
             bfw.flush();
             listenMessage();
         } catch (IOException ex) {
@@ -180,57 +185,72 @@ public class ClientGUI extends javax.swing.JFrame {
             jTextField_nameclient.setEnabled(true);
         } catch (IOException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadLocationException ex) {
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendActionPerformed
+
         try {
-            senMessage(jTextField_nameclient.getText()+":"+jTextField_messagecontent.getText());
+            senMessage(jTextField_nameclient.getText() + ":" + jTextField_messagecontent.getText());
         } catch (IOException ex) {
+            Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (BadLocationException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_jButton_sendActionPerformed
     //Request to server
-    public void senMessage(String msg) throws IOException {
-        if(msg.equals("Logout")){
+    public void senMessage(String msg) throws IOException, BadLocationException {
+
+        if (msg.equals("Logout")) {
             bfw.write("Disconnected");
-            chatArea.append("Disconnected");
+
+            textPanel_append("Disconnected");
+        } else {
+            String encrypt = this.encrypt.encrypt(msg, secretKey);
+            bfw.write(encrypt + "\n");
         }
-        else{
-            bfw.write(msg + "\n");
-            chatArea.append(msg+"\n");
-        }
-       
+        textPanel_append(msg + "\n");
+
         bfw.flush();
         jTextField_messagecontent.setText("");
     }
 
     //Client listen changes messge
     public void listenMessage() throws IOException {
-        InputStream in = socket.getInputStream();
-        InputStreamReader read_in = new InputStreamReader(in);
-        BufferedReader bfr = new BufferedReader(read_in);
-        
         Thread t = new Thread(new Runnable() {
+            InputStream in = socket.getInputStream();
+            InputStreamReader read_in = new InputStreamReader(in);
+            BufferedReader bfr = new BufferedReader(read_in);
+            SimpleAttributeSet attr = new SimpleAttributeSet();
+
             String msg = "";
+
             @Override
             public void run() {
-                while(!"Logout".equalsIgnoreCase(msg)){
+                StyleConstants.setAlignment(attr, StyleConstants.ALIGN_LEFT);
+                chatArea.setParagraphAttributes(attr, true);
+                while (!"Logout".equalsIgnoreCase(msg)) {
                     try {
-                        if(bfr.ready()){
+                        if (bfr.ready()) {
                             msg = bfr.readLine();
-                            if(msg.equals("Logout")){
-                                chatArea.append("Server out \n");
-                            }
-                            else{
-                                chatArea.append(msg+"\n");
+                            if (msg.equals("Logout")) {
+
+                                textPanel_append("Logout \n");
+                            } else {
+                                textPanel_append(msg + "\n");
                             }
                         }
                     } catch (IOException ex) {
                         Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (BadLocationException ex) {
+                        Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }   }
+                }
+            }
+
         });
         t.setDaemon(true);
         t.start();
@@ -274,7 +294,7 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea chatArea;
+    private javax.swing.JTextPane chatArea;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton_connect;
     private javax.swing.JButton jButton_send;
@@ -284,7 +304,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextField_ip;
     private javax.swing.JTextField jTextField_messagecontent;
     private javax.swing.JTextField jTextField_nameclient;

@@ -5,6 +5,7 @@
  */
 
 package Server_GUI;
+import Encrypt_Decrypt.EncryDecry;
 import Server_GUI.ServerGUI;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -30,6 +31,9 @@ public class Server extends Thread{
   private InputStreamReader inr;  
   private BufferedReader bfr;
   
+    final static String secretKey = "secrete";
+    EncryDecry encrypt = new EncryDecry();
+
   public Server(){
       
   }
@@ -64,7 +68,7 @@ public void run(){
     clientname=msg = bfr.readLine();
     while(!"Logout".equalsIgnoreCase(msg) && msg != null)
       {           
-       clientname=msg = bfr.readLine();
+       clientname = msg = bfr.readLine();
        sendToAll(bfw, msg);
        System.out.println(clientname);                                              
        }
@@ -79,14 +83,11 @@ public void run(){
 public void sendToAll(BufferedWriter bwOutput, String msg) throws  IOException 
 {
   BufferedWriter bwS;
-   
   for(BufferedWriter bw :  clients){
    bwS = (BufferedWriter)bw;
-   if(!(bwOutput == bwS)){
-        bw.write(msg+"\n");
-
-//    bw.write(nome + " -> " + msg+"\r\n");
-//       System.out.println("Day la nome"+nome);
+   if((bwOutput != bwS) && (msg!=null)){
+        String decrypt = this.encrypt.decrypt(msg, secretKey);
+        bw.write(decrypt+"\n");
      bw.flush(); 
    }
   }          
