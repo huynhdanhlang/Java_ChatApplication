@@ -22,6 +22,7 @@ import Encrypt_Decrypt.EncryDecry;
  * @author ASUS
  */
 public class ServerGUI extends javax.swing.JFrame {
+
     /**
      * Creates new form ServerGUI
      */

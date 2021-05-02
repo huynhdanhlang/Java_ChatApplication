@@ -165,8 +165,8 @@ public class ClientGUI extends javax.swing.JFrame {
             ouw = new OutputStreamWriter(ou);
             bfw = new BufferedWriter(ouw);
             //Show on Client that Client is connected
-            String str = jTextField_nameclient.getText()+" "+"connected successfully";
-            bfw.write("\n"+encrypt.encrypt(str, secretKey)+"\n");
+            String str = jTextField_nameclient.getText() + " " + "connected successfully";
+            bfw.write("\n" + encrypt.encrypt(str, secretKey) + "\n");
             bfw.flush();
             listenMessage();
         } catch (IOException ex) {

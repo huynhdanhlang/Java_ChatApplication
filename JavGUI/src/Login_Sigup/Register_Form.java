@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 package Login_Sigup;
+
 import com.mysql.cj.jdbc.result.ResultSetInternalMethods;
 import java.awt.Color;
 import java.io.File;
@@ -21,36 +22,31 @@ import javax.swing.ButtonGroup;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author ASUS
  */
-
 public class Register_Form extends javax.swing.JFrame {
 
     /**
      * Creates new form Register_Form
      */
-    
     //Create a btn Group
     ButtonGroup btn = new ButtonGroup();
     //Craete a path image
-    String path_image=null;
-    
+    String path_image = null;
+
     public Register_Form() {
         initComponents();
-        
-        this.setLocationRelativeTo(null);
-        
 
-        
-        
+        this.setLocationRelativeTo(null);
+
         //set border label_minimize and label_close
         Border label_border = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black);
         jLabel_minimize.setBorder(label_border);
         jLabel_close.setBorder(label_border);
-        
-        
+
         //Create border for JTextField and JpasswordFeild
         Border user_pass_border = BorderFactory.createMatteBorder(1, 5, 1, 1, new Color(230, 93, 16));
         jTextField_fullname.setBorder(user_pass_border);
@@ -58,7 +54,7 @@ public class Register_Form extends javax.swing.JFrame {
         jPasswordField_password.setBorder(user_pass_border);
         jPasswordField_confirmpass.setBorder(user_pass_border);
         jTextField_phone.setBorder(user_pass_border);
-        
+
         //Add a button group
         btn.add(jRadioButton_male);
         btn.add(jRadioButton_female);
@@ -76,12 +72,11 @@ public class Register_Form extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jLabel_sigin = new javax.swing.JLabel();
         jLabel_close = new javax.swing.JLabel();
         jLabel_minimize = new javax.swing.JLabel();
         Jpanel_title = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jButton_Login = new javax.swing.JButton();
+        jButton_sigup = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jTextField_fullname = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -108,24 +103,6 @@ public class Register_Form extends javax.swing.JFrame {
         jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
         jPanel3.setLayout(null);
-
-        jLabel_sigin.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        jLabel_sigin.setForeground(new java.awt.Color(204, 255, 255));
-        jLabel_sigin.setText(">>Đã có tài khoản<<");
-        jLabel_sigin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jLabel_sigin.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel_siginMouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel_siginMouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel_siginMouseExited(evt);
-            }
-        });
-        jPanel3.add(jLabel_sigin);
-        jLabel_sigin.setBounds(150, 370, 150, 20);
 
         jLabel_close.setFont(new java.awt.Font("UTM American Sans", 0, 18)); // NOI18N
         jLabel_close.setText(" X");
@@ -184,28 +161,28 @@ public class Register_Form extends javax.swing.JFrame {
         );
 
         jPanel3.add(Jpanel_title);
-        Jpanel_title.setBounds(150, 0, 0, 0);
+        Jpanel_title.setBounds(150, 0, 136, 41);
 
-        jButton_Login.setBackground(new java.awt.Color(255, 92, 34));
-        jButton_Login.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
-        jButton_Login.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_Login.setText("Đăng ký");
-        jButton_Login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton_Login.addMouseListener(new java.awt.event.MouseAdapter() {
+        jButton_sigup.setBackground(new java.awt.Color(255, 92, 34));
+        jButton_sigup.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
+        jButton_sigup.setForeground(new java.awt.Color(255, 255, 255));
+        jButton_sigup.setText("Đăng ký");
+        jButton_sigup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton_sigup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jButton_LoginMouseEntered(evt);
+                jButton_sigupMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                jButton_LoginMouseExited(evt);
+                jButton_sigupMouseExited(evt);
             }
         });
-        jButton_Login.addActionListener(new java.awt.event.ActionListener() {
+        jButton_sigup.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_LoginActionPerformed(evt);
+                jButton_sigupActionPerformed(evt);
             }
         });
-        jPanel3.add(jButton_Login);
-        jButton_Login.setBounds(170, 320, 100, 41);
+        jPanel3.add(jButton_sigup);
+        jButton_sigup.setBounds(170, 340, 100, 41);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel1.setText("Full name");
@@ -339,79 +316,79 @@ public class Register_Form extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton_LoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_LoginMouseEntered
-        jButton_Login.setBackground(new Color(255, 82, 20));
-    }//GEN-LAST:event_jButton_LoginMouseEntered
+    private void jButton_sigupMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_sigupMouseEntered
+        jButton_sigup.setBackground(new Color(255, 82, 20));
+    }//GEN-LAST:event_jButton_sigupMouseEntered
 
-    private void jButton_LoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_LoginMouseExited
-        jButton_Login.setBackground(new Color(255, 92, 34));
-    }//GEN-LAST:event_jButton_LoginMouseExited
+    private void jButton_sigupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_sigupMouseExited
+        jButton_sigup.setBackground(new Color(255, 92, 34));
+    }//GEN-LAST:event_jButton_sigupMouseExited
 
-    
-    public void clearFields(){
-        jTextField_fullname.setText("");
-        jTextField_username.setText("");
-        jPasswordField_password.setText("");
-        jPasswordField_confirmpass.setText("");
-        jTextField_phone.setText("");
-        path_image = "";
-        btn.clearSelection();
-        
-    }
-    private void jButton_LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LoginActionPerformed
+//    public void clearFields() {
+//        jTextField_fullname.setText("");
+//        jTextField_username.setText("");
+//        jPasswordField_password.setText("");
+//        jPasswordField_confirmpass.setText("");
+//        jTextField_phone.setText("");
+//        path_image = "";
+//        btn.clearSelection();
+//
+//    }
+    private void jButton_sigupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sigupActionPerformed
         String full_name = jTextField_fullname.getText();
         String username = jTextField_username.getText();
         String password = String.valueOf(jPasswordField_password.getPassword());
         String confirmpass = String.valueOf(jPasswordField_confirmpass.getPassword());
         String phone = jTextField_phone.getText();
         String gender = "Male";
-        
-        if(jRadioButton_female.isSelected()){
+
+        if (jRadioButton_female.isSelected()) {
             gender = "Female";
         }
-        if(checkFields()){
+        if (checkFields()) {
             try {
-                if(!checkUsername(username)){
+                if (!checkUsername(username)) {
                     PreparedStatement s;
                     ResultSetInternalMethods rs;
-                    
+
                     String query = "INSERT INTO `user`(`full_name`, `username`, `password`, `phone`, `gender`, `picture`) VALUES (?,?,?,?,?,?)";
-                   
+
                     s = MySQL_connect.getConnection().prepareStatement(query);
                     s.setString(1, full_name);
                     s.setString(2, username);
-                    s.setString(3,password);
-                    s.setString(4,phone);
-                    s.setString(5,gender);
-                    
+                    s.setString(3, password);
+                    s.setString(4, phone);
+                    s.setString(5, gender);
+
                     try {
-                        if(path_image!=null){
+                        if (path_image != null) {
                             InputStream image = new FileInputStream(new File(path_image));
                             s.setBlob(6, image);
+                        } else {
+                            s.setNull(6, java.sql.Types.NULL);
                         }
-                        else{
-                            s.setNull(6,java.sql.Types.NULL);
-                        }
-                        
-                        
-                        if(s.executeUpdate()!=0){
+
+                        if (s.executeUpdate() != 0) {
                             JOptionPane.showMessageDialog(this, "Account created successfully");
-                        }
-                        else{
+                        } else {
                             JOptionPane.showMessageDialog(this, "Create fail! Check your information");
                         }
-                        clearFields();
+//                        clearFields();
+                        Login_Form log = new Login_Form();
+                        log.setVisible(true);
+                        log.pack();
+                        log.setLocationRelativeTo(null);
+                        this.dispose();
                     } catch (FileNotFoundException ex) {
                         Logger.getLogger(Register_Form.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    
-                    
+
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(Register_Form.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-    }//GEN-LAST:event_jButton_LoginActionPerformed
+    }//GEN-LAST:event_jButton_sigupActionPerformed
 
     private void jLabel_minimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_minimizeMouseClicked
         //Minimize app
@@ -445,28 +422,27 @@ public class Register_Form extends javax.swing.JFrame {
         Border label_border = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black);
         jLabel_close.setBorder(label_border);
         jLabel_close.setForeground(Color.black);
-        
+
     }//GEN-LAST:event_jLabel_closeMouseExited
 
     private void jTextField_phoneKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextField_phoneKeyTyped
         // Only allow input number
-        if(!Character.isDigit(evt.getKeyChar())){
-            evt.consume();   
+        if (!Character.isDigit(evt.getKeyChar())) {
+            evt.consume();
         }
     }//GEN-LAST:event_jTextField_phoneKeyTyped
 
     private void jButton_select_imagesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_select_imagesActionPerformed
-        String path=null;
+        String path = null;
         JFileChooser chooser = new JFileChooser();
         chooser.setCurrentDirectory(new File(System.getProperty("user.home")));
         //file extension
-        FileNameExtensionFilter extension = new FileNameExtensionFilter("*Images","jpg","png","jpeg");
+        FileNameExtensionFilter extension = new FileNameExtensionFilter("*Images", "jpg", "png", "jpeg");
         chooser.addChoosableFileFilter(extension);
-        
-        
-        int filestate= chooser.showSaveDialog(null);
+
+        int filestate = chooser.showSaveDialog(null);
         //check if the user choose a image
-        if(filestate == JFileChooser.APPROVE_OPTION){
+        if (filestate == JFileChooser.APPROVE_OPTION) {
             File select_image = chooser.getSelectedFile();
             path = select_image.getAbsolutePath();
             jLabel_pathimages.setText(path);
@@ -474,63 +450,44 @@ public class Register_Form extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_select_imagesActionPerformed
 
-    private void jLabel_siginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_siginMouseEntered
-        jLabel_sigin.setForeground(new Color(204, 255, 153));
-    }//GEN-LAST:event_jLabel_siginMouseEntered
-
-    private void jLabel_siginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_siginMouseExited
-        jLabel_sigin.setForeground(new Color(204, 255, 255));
-    }//GEN-LAST:event_jLabel_siginMouseExited
-
-    private void jLabel_siginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_siginMouseClicked
-        Login_Form login = new Login_Form();
-        login.setVisible(true);
-        login.pack();
-        login.setLocationRelativeTo(null);
-        this.dispose();
-    }//GEN-LAST:event_jLabel_siginMouseClicked
-
-    
     //Check input fields 
-    public boolean checkFields(){
+    public boolean checkFields() {
         String full_name = jTextField_fullname.getText();
         String username = jTextField_username.getText();
         String password = String.valueOf(jPasswordField_password.getPassword());
         String confirmpass = String.valueOf(jPasswordField_confirmpass.getPassword());
         String phone = jTextField_phone.getText();
-        
-        if(full_name.trim().equals("")|| username.trim().equals("")
-                || password.trim().equals("")||confirmpass.trim().equals("")
-                || phone.trim().equals("")){
+
+        if (full_name.trim().equals("") || username.trim().equals("")
+                || password.trim().equals("") || confirmpass.trim().equals("")
+                || phone.trim().equals("")) {
             JOptionPane.showMessageDialog(this, "one or more field empty");
             return false;
-        }
-        else if(!password.equals(confirmpass)){
+        } else if (!password.equals(confirmpass)) {
             JOptionPane.showMessageDialog(this, "password don't match. Please check again.");
             return false;
-        }
-        else{
+        } else {
             return true;
         }
     }
-    
+
     //check username is already used in database.
-    public boolean checkUsername(String username) throws SQLException{
+    public boolean checkUsername(String username) throws SQLException {
         PreparedStatement s;
         ResultSetInternalMethods rs;
         boolean username_is_exist = false;
         String query = "SELECT * FROM `user` WHERE `username`= ?";
-        
+
         s = MySQL_connect.getConnection().prepareStatement(query);
-        s.setString(1,username);
+        s.setString(1, username);
         rs = (ResultSetInternalMethods) s.executeQuery();
-        while(rs.next()){
+        while (rs.next()) {
             username_is_exist = true;
             JOptionPane.showMessageDialog(this, "Username is already used.");
         }
         return username_is_exist;
     }
-    
+
     /**
      * @param args the command line arguments
      */
@@ -568,8 +525,8 @@ public class Register_Form extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel Jpanel_title;
-    private javax.swing.JButton jButton_Login;
     private javax.swing.JButton jButton_select_images;
+    private javax.swing.JButton jButton_sigup;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
@@ -582,7 +539,6 @@ public class Register_Form extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel_close;
     private javax.swing.JLabel jLabel_minimize;
     private javax.swing.JLabel jLabel_pathimages;
-    private javax.swing.JLabel jLabel_sigin;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

@@ -4,7 +4,9 @@
  * and open the template in the editor.
  */
 package Login_Sigup;
+
 import Client_GUI.ClientGUI;
+
 /**
  *
  * @author ASUS

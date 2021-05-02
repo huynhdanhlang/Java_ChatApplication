@@ -4,9 +4,9 @@
  * and open the template in the editor.
  */
 package Login_Sigup;
+
 import Server_GUI.ServerGUI;
 import Client_GUI.ClientGUI;
-import Server_GUI.Server;
 import com.mysql.cj.jdbc.result.ResultSetInternalMethods;
 import java.awt.Color;
 import javax.swing.BorderFactory;
@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author ASUS
@@ -30,20 +31,19 @@ public class Login_Form extends javax.swing.JFrame {
      */
     public Login_Form() {
         initComponents();
-        
+
         //Center form
         this.setLocationRelativeTo(null);
-        
+
         //Create a border yellow color
         //Border jpanel_title_border = BorderFactory.createMatteBorder(0, 1, 1, 1, Color.yellow);
         //set border yellow to Jpanel_title
         //Jpanel_title.setBorder(jpanel_title_border);
-        
         //set border label_minimize and label_close
         Border label_border = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black);
         jLabel_minimize.setBorder(label_border);
         jLabel_close.setBorder(label_border);
-        
+
         //Create border for JTextField and JpasswordFeild
         Border user_pass_border = BorderFactory.createMatteBorder(1, 5, 1, 1, new Color(137, 197, 101));
         jTextField_username.setBorder(user_pass_border);
@@ -299,8 +299,8 @@ public class Login_Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel_minimizeMouseClicked
 
     private void jButton_LoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_LoginActionPerformed
-        PreparedStatement st ;
-        ResultSetInternalMethods rs ;
+        PreparedStatement st;
+        ResultSetInternalMethods rs;
         //get username and password
         String username = jTextField_username.getText();
         String password = String.valueOf(jPasswordField_password.getPassword());
@@ -312,11 +312,11 @@ public class Login_Form extends javax.swing.JFrame {
             st.setString(1, username);
             st.setString(2, password);
             System.out.println(st);
-            rs =  (ResultSetInternalMethods) st.executeQuery();
+            rs = (ResultSetInternalMethods) st.executeQuery();
 
-            if(rs.next()){
+            if (rs.next()) {
                 //show new Form
-                Menu_Form menu =new Menu_Form();
+                Menu_Form menu = new Menu_Form();
                 ServerGUI server = new ServerGUI();
                 ClientGUI client = new ClientGUI();
                 menu.setVisible(true);
@@ -329,8 +329,7 @@ public class Login_Form extends javax.swing.JFrame {
                 server.setLocationRelativeTo(null);
                 client.setLocationRelativeTo(null);
                 this.dispose();
-            }
-            else{
+            } else {
                 //Error
                 JOptionPane.showMessageDialog(null, "Invalid Username / Password ", "Login Error", 2);
             }
@@ -341,7 +340,7 @@ public class Login_Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_LoginActionPerformed
 
     private void jButton_LoginMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_LoginMouseExited
-        jButton_Login.setBackground(new Color(51,102,255));
+        jButton_Login.setBackground(new Color(51, 102, 255));
     }//GEN-LAST:event_jButton_LoginMouseExited
 
     private void jButton_LoginMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton_LoginMouseEntered
@@ -350,10 +349,9 @@ public class Login_Form extends javax.swing.JFrame {
 
     private void jPasswordField_passwordFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordField_passwordFocusLost
         String pass = String.valueOf(jPasswordField_password.getPassword());
-        if(pass.trim().toLowerCase().equals("password") || pass.trim().equals(""))
-        {
+        if (pass.trim().toLowerCase().equals("password") || pass.trim().equals("")) {
             jPasswordField_password.setText("password");
-            jPasswordField_password.setForeground(new Color(167,171,176));
+            jPasswordField_password.setForeground(new Color(167, 171, 176));
         }
         // remove border jlabel icon
         jLabel_password.setBorder(null);
@@ -362,7 +360,7 @@ public class Login_Form extends javax.swing.JFrame {
     private void jPasswordField_passwordFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPasswordField_passwordFocusGained
         //get text PasswordFeild
         String pass = String.valueOf(jPasswordField_password.getPassword());
-        if(pass.trim().toLowerCase().equals("password")){
+        if (pass.trim().toLowerCase().equals("password")) {
             jPasswordField_password.setText("");
             jPasswordField_password.setForeground(Color.black);
         }
@@ -374,10 +372,9 @@ public class Login_Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jPasswordField_passwordFocusGained
 
     private void jTextField_usernameFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_usernameFocusLost
-        if(jTextField_username.getText().trim().toLowerCase().equals("username") || jTextField_username.getText().trim().equals(""))
-        {
+        if (jTextField_username.getText().trim().toLowerCase().equals("username") || jTextField_username.getText().trim().equals("")) {
             jTextField_username.setText("username");
-            jTextField_username.setForeground(new Color(167,171,176));
+            jTextField_username.setForeground(new Color(167, 171, 176));
         }
         // remove border jlabel icon
         jLabel_username.setBorder(null);
@@ -385,7 +382,7 @@ public class Login_Form extends javax.swing.JFrame {
 
     private void jTextField_usernameFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jTextField_usernameFocusGained
         //clear TextFeild
-        if(jTextField_username.getText().trim().toLowerCase().equals("username")){
+        if (jTextField_username.getText().trim().toLowerCase().equals("username")) {
             jTextField_username.setText("");
             jTextField_username.setForeground(Color.black);
         }
@@ -409,7 +406,7 @@ public class Login_Form extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabel_signupMouseEntered
 
     private void jLabel_signupMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_signupMouseExited
-        jLabel_signup.setForeground(new Color(204,204,204));
+        jLabel_signup.setForeground(new Color(204, 204, 204));
     }//GEN-LAST:event_jLabel_signupMouseExited
 
     /**
