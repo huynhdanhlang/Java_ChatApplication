@@ -1,0 +1,10 @@
+Button "Connect" enable=false ngay khi kết nối thành công
+
+Gộp button "Thêm Client" vào chung khung của Server luôn
+Khi mới mở lên:
+   Các khung chia ra từng góc riêng
+   button "leave chat", "Select file", "Gửi" enable=false
+Khi kết nối thành công: button "Start server" enable=false
+Thêm tên client khi kết nối thành công
+"Your name" phải đặt khác nhau
+Tắt form của client nào thì chỉ tắt form đó thôi
