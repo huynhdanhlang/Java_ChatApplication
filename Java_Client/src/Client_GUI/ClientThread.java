@@ -1,0 +1,125 @@
+package Client_GUI;
+
+import Encrypt_Decrypt.EncrytDecrypt_Mess;
+import java.awt.Color;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.text.DecimalFormat;
+import java.util.StringTokenizer;
+import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.text.BadLocationException;
+
+public class ClientThread implements Runnable {
+    final static String secretKey = "secrete";
+    EncrytDecrypt_Mess decrypt = new EncrytDecrypt_Mess();
+    Socket socket;
+    DataInputStream dis;
+    DataOutputStream dos;
+    ClientGUI main;
+    StringTokenizer st;
+    protected DecimalFormat df = new DecimalFormat("##,#00");
+
+    public ClientThread(Socket socket, ClientGUI main) throws BadLocationException {
+        this.main = main;
+        this.socket = socket;
+        try {
+            dis = new DataInputStream(socket.getInputStream());
+        } catch (IOException e) {
+            main.textPanel_append("[IOException]: " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void run() {
+        try {
+            while (!Thread.currentThread().isInterrupted()) {
+                String data = dis.readUTF();
+                System.out.println("This is dataclient: " + data);
+
+                String decrypt_data=  decrypt.decrypt(data, secretKey);
+                System.out.println("This is readUTF: " + decrypt_data);
+                st = new StringTokenizer(decrypt_data);
+                System.out.println("This is StringTokenizer: " + st);
+                /**
+                 * Get Message CMD *
+                 */
+                // format: [Token] [username] [message content]
+                String CMD = st.nextToken();
+                switch (CMD) {
+                    case "CMD_MESSAGE":
+                        String msg = "";
+                        String frm = st.nextToken();
+                        while (st.hasMoreTokens()) {
+                            msg = msg + " " + st.nextToken();
+                        }
+                        main.textPanel_append(" " + frm + ":" + msg + "\n");
+                        break;
+
+                    case "CMD_ADD_USER_ONLINE":
+                        Vector online = new Vector();
+                        while (st.hasMoreTokens()) {
+                            String list = st.nextToken();
+                            if (!list.equalsIgnoreCase(main.returnusername())) {
+                                online.add(list);
+                            }
+                        }
+                        main.appendOnlineList(online);
+                        break;
+
+                    //  This will inform the client that there's a file receive, Accept or Reject the file  
+                    case "CMD_FILE_ACEPT_REJECT":  // Format:  CMD_FILE_ACEPT_REJECT [sender] [receiver] [filename]
+                        String sender = st.nextToken();
+                        String receiver = st.nextToken();
+                        String fname = st.nextToken();
+                        int confirm = JOptionPane.showConfirmDialog(main, "From: " + sender + "\nFilename: " + fname + "\nWould you like to Accept?");
+                        if (confirm == 0) { // client accepted the request, then inform the sender to send the file now
+                            /* Select where to save this file   */
+                            main.openFolder();
+                            try {
+                                dos = new DataOutputStream(socket.getOutputStream());
+                                // Format:  CMD_SEND_FILE_ACCEPT [ToSender] [Message]
+                                String format = "CMD_SEND_FILE_ACCEPT " + sender + " accepted";
+                                dos.writeUTF(format);
+
+                                /*  this will create a filesharing socket to handle incoming file and this socket will automatically closed when it's done.  */
+                                Socket fSoc = new Socket(main.getMyHost(), main.getMyPort());
+                                DataOutputStream fdos = new DataOutputStream(fSoc.getOutputStream());
+                                fdos.writeUTF("CMD_HANDLE_FILE_SHARING_SOCKET " + main.getMyUsername());
+                                /*  Run Thread for this   */
+                                new Thread(new ReceivingFileThread(fSoc, main)).start();
+                            } catch (IOException e) {
+                                System.out.println("[CMD_FILE_ACEPT_REJECT]: " + e.getMessage());
+                            }
+                        } else { // client rejected the request, then send back result to sender
+                            try {
+                                dos = new DataOutputStream(socket.getOutputStream());
+                                // Format:  CMD_SEND_FILE_ERROR [ToSender] [Message]
+                                String format = "CMD_SEND_FILE_ERROR " + sender + " Client rejected your request or connection was lost.!";
+                                dos.writeUTF(format);
+                            } catch (IOException e) {
+                                System.out.println("[CMD_FILE_ACEPT_REJECT]: " + e.getMessage());
+                            }
+                        }
+                            break;
+
+                    default:
+                        main.textPanel_append("[CMDException]: Unknown Command " + CMD);
+                        break;
+                }
+            }
+        } catch (IOException e) {
+            try {
+                main.textPanel_append(" Server Connection was lost, please try again later.!");
+            } catch (BadLocationException ex) {
+                Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } catch (BadLocationException ex) {
+            Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+}
