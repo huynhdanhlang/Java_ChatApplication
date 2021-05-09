@@ -16,7 +16,7 @@ import javax.swing.text.BadLocationException;
 
 public class ClientThread implements Runnable {
     final static String secretKey = "secrete";
-    EncrytDecrypt_Mess decrypt = new EncrytDecrypt_Mess();
+    EncrytDecrypt_Mess encryptdecrypt = new EncrytDecrypt_Mess();
     Socket socket;
     DataInputStream dis;
     DataOutputStream dos;
@@ -41,7 +41,7 @@ public class ClientThread implements Runnable {
                 String data = dis.readUTF();
                 System.out.println("This is dataclient: " + data);
 
-                String decrypt_data=  decrypt.decrypt(data, secretKey);
+                String decrypt_data=  encryptdecrypt.decrypt(data, secretKey);
                 System.out.println("This is readUTF: " + decrypt_data);
                 st = new StringTokenizer(decrypt_data);
                 System.out.println("This is StringTokenizer: " + st);
@@ -84,12 +84,15 @@ public class ClientThread implements Runnable {
                                 dos = new DataOutputStream(socket.getOutputStream());
                                 // Format:  CMD_SEND_FILE_ACCEPT [ToSender] [Message]
                                 String format = "CMD_SEND_FILE_ACCEPT " + sender + " accepted";
-                                dos.writeUTF(format);
+                                String encrypt_format = encryptdecrypt.encrypt(format, secretKey);
+                                dos.writeUTF(encrypt_format);
 
                                 /*  this will create a filesharing socket to handle incoming file and this socket will automatically closed when it's done.  */
                                 Socket fSoc = new Socket(main.getMyHost(), main.getMyPort());
                                 DataOutputStream fdos = new DataOutputStream(fSoc.getOutputStream());
-                                fdos.writeUTF("CMD_HANDLE_FILE_SHARING_SOCKET " + main.getMyUsername());
+                                String filesharing ="CMD_HANDLE_FILE_SHARING_SOCKET " + main.getMyUsername();
+                                String encrypt_filesharing =encryptdecrypt.encrypt(filesharing, secretKey);
+                                fdos.writeUTF(encrypt_filesharing);
                                 /*  Run Thread for this   */
                                 new Thread(new ReceivingFileThread(fSoc, main)).start();
                             } catch (IOException e) {
@@ -100,7 +103,8 @@ public class ClientThread implements Runnable {
                                 dos = new DataOutputStream(socket.getOutputStream());
                                 // Format:  CMD_SEND_FILE_ERROR [ToSender] [Message]
                                 String format = "CMD_SEND_FILE_ERROR " + sender + " Client rejected your request or connection was lost.!";
-                                dos.writeUTF(format);
+                                String encrypt_format = encryptdecrypt.encrypt(format, secretKey);
+                                dos.writeUTF(encrypt_format);
                             } catch (IOException e) {
                                 System.out.println("[CMD_FILE_ACEPT_REJECT]: " + e.getMessage());
                             }

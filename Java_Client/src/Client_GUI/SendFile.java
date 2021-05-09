@@ -17,7 +17,7 @@ import Encrypt_Decrypt.EncrytDecrypt_Mess;
 public class SendFile extends javax.swing.JFrame {
 
     final static String secretKey = "secrete";
-    EncrytDecrypt_Mess encrypt = new EncrytDecrypt_Mess();
+    EncrytDecrypt_Mess encryptdecrypt = new EncrytDecrypt_Mess();
     private Socket socket;
     private DataInputStream dis;
     private DataOutputStream dos;
@@ -53,7 +53,7 @@ public class SendFile extends javax.swing.JFrame {
             dis = new DataInputStream(socket.getInputStream());
             //  Format: CMD_HANDLE_FILE_SHARING_SOCKET [sender]
             String format = "CMD_HANDLE_FILE_SHARING_SOCKET " + myusername;
-            String encrypt_format = encrypt.encrypt(format, secretKey);
+            String encrypt_format = encryptdecrypt.encrypt(format, secretKey);
             dos.writeUTF(encrypt_format);
             System.out.println(format);
 
@@ -89,7 +89,11 @@ public class SendFile extends javax.swing.JFrame {
             try {
                 while (!Thread.currentThread().isInterrupted()) {
                     String data = dis.readUTF();  // Read the content of the received data from the server
-                    st = new StringTokenizer(data);
+                    System.out.println("File sent en_yeahh: "+data);
+                    String decrypt_data = encryptdecrypt.decrypt(data, secretKey);
+                    st = new StringTokenizer(decrypt_data);
+                    System.out.println("File sent de_yeahh: "+st);
+
                     String cmd = st.nextToken();  //  Get the first word from the data
                     switch (cmd) {
                         case "CMD_RECEIVE_FILE_ERROR":  // Format: CMD_RECEIVE_FILE_ERROR [Message]
@@ -185,11 +189,6 @@ public class SendFile extends javax.swing.JFrame {
         txtFile.setEditable(false);
         txtFile.setBackground(new java.awt.Color(255, 255, 255));
         txtFile.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        txtFile.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtFileActionPerformed(evt);
-            }
-        });
 
         btnBrowse.setText("..");
         btnBrowse.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -201,6 +200,7 @@ public class SendFile extends javax.swing.JFrame {
 
         jLabel2.setText("Send to:");
 
+        progressbar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         progressbar.setStringPainted(true);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -256,8 +256,9 @@ public class SendFile extends javax.swing.JFrame {
                 // Format: CMD_SEND_FILEXD [sender] [receiver] [filename]
                 txtFile.setText("");
                 String fname = getThisFilename(file);
+                System.out.println("Aloaloaloaloaloa: "+myusername + " " + sendTo + " " + fname);
                 String format = "CMD_SEND_FILEXD " + myusername + " " + sendTo + " " + fname;
-                String encrypt_format = this.encrypt.encrypt(format, secretKey);
+                String encrypt_format = this.encryptdecrypt.encrypt(format, secretKey);
                 dos.writeUTF(encrypt_format);
                 System.out.println("Send file to clients: "+format);
                 updateBtn("Sending...");
@@ -284,10 +285,6 @@ public class SendFile extends javax.swing.JFrame {
         // TODO add your handling code here:
         showOpenDialog();
     }//GEN-LAST:event_btnBrowseActionPerformed
-
-    private void txtFileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFileActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_txtFileActionPerformed
 
     /*   show Open Dialog   */
     public void showOpenDialog() {

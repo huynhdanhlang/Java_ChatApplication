@@ -175,6 +175,7 @@ public class ServerGUI extends javax.swing.JFrame {
         try {
             clientFileSharingUsername.add(user);
         } catch (Exception e) {
+            appendMessage("[clientFileSharingUsername]: " + e.getMessage());
         }
     }
 
@@ -182,6 +183,7 @@ public class ServerGUI extends javax.swing.JFrame {
         try {
             clientFileSharingSocket.add(soc);
         } catch (Exception e) {
+            appendMessage("[clientFileSharingSocket]: " + e.getMessage());
         }
     }
 
@@ -212,8 +214,10 @@ public class ServerGUI extends javax.swing.JFrame {
     }
 
     public Socket getClientFileSharingSocket(String username) {
+        System.out.println("Username is sent: "+username);
         Socket tsoc = null;
         for (int x = 0; x < clientFileSharingUsername.size(); x++) {
+            System.out.println("This user list: "+clientFileSharingUsername.elementAt(x));
             if (clientFileSharingUsername.elementAt(x).equals(username)) {
                 tsoc = (Socket) clientFileSharingSocket.elementAt(x);
                 break;

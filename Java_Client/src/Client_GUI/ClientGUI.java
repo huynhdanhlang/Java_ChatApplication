@@ -4,11 +4,8 @@ import Encrypt_Decrypt.EncrytDecrypt_Mess;
 import java.awt.Color;
 import java.awt.FlowLayout;
 
-import java.io.BufferedWriter;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.io.Writer;
 import java.net.Socket;
 import java.net.URL;
 import java.util.Iterator;

@@ -23,7 +23,7 @@ public class SocketThread implements Runnable {
     String client, filesharing_username;
     final static String secretKey = "secrete";
     EncryptDecryt_Mess encryptdecrypt = new EncryptDecryt_Mess();
-    private final int BUFFER_SIZE = 100;
+    private final int BUFFER_SIZE = 8096;
 
     public SocketThread(Socket socket, ServerGUI main) {
         this.main = main;
@@ -145,6 +145,7 @@ public class SocketThread implements Runnable {
                         String file_sharing_username = st.nextToken();
                         filesharing_username = file_sharing_username;
                         main.setClientFileSharingUsername(file_sharing_username);
+                        System.out.println("filesharing_username: "+filesharing_username);
                         main.setClientFileSharingSocket(socket);
                         main.appendMessage("CMD_HANDLE_FILE_SHARING_SOCKET : Username: " + file_sharing_username);
                         main.appendMessage("CMD_HANDLE_FILE_SHARING_SOCKET : File sharing is now open");
@@ -255,7 +256,8 @@ public class SocketThread implements Runnable {
                             Socket eSock = main.getClientFileSharingSocket(eReceiver); // get the file sharing host socket for connection
                             DataOutputStream eDos = new DataOutputStream(eSock.getOutputStream());
                             //  Format:  CMD_RECEIVE_FILE_ERROR [Message]
-                            eDos.writeUTF("CMD_RECEIVE_FILE_ERROR " + eMsg);
+                            String encryString = encryptdecrypt.encrypt("CMD_RECEIVE_FILE_ERROR " + eMsg, secretKey);
+                            eDos.writeUTF(encryString);
                         } catch (IOException e) {
                             main.appendMessage("[CMD_RECEIVE_FILE_ERROR]: " + e.getMessage());
                         }

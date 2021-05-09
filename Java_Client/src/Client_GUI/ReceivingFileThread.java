@@ -31,7 +31,7 @@ public class ReceivingFileThread implements Runnable {
     protected ClientGUI main;
     protected StringTokenizer st;
     protected DecimalFormat df = new DecimalFormat("##,#00");
-    private final int BUFFER_SIZE = 100;
+    private final int BUFFER_SIZE = 8096;
 
     public ReceivingFileThread(Socket soc, ClientGUI m) {
         this.socket = soc;
@@ -49,7 +49,10 @@ public class ReceivingFileThread implements Runnable {
         try {
             while (!Thread.currentThread().isInterrupted()) {
                 String data = dis.readUTF();
-                st = new StringTokenizer(data);
+                System.out.println("This is file en_download: "+data);
+                String decrypt_data = encryt.decrypt(data, secretKey);
+                st = new StringTokenizer(decrypt_data);
+                System.out.println("This is file de_download: "+st);
                 String CMD = st.nextToken();
 
                 switch (CMD) {
@@ -60,6 +63,7 @@ public class ReceivingFileThread implements Runnable {
                         try {
                             String filename = st.nextToken();
                             int filesize = Integer.parseInt(st.nextToken());
+                            System.out.println("File size: "+filesize);
                             consignee = st.nextToken(); // Get the Sender Username
                             main.setMyTitle("Downloading File....");
                             System.out.println("Downloading File....");
@@ -94,7 +98,8 @@ public class ReceivingFileThread implements Runnable {
                                 Format: CMD_SEND_FILERESPONSE [username] [Message]
                              */
                             DataOutputStream eDos = new DataOutputStream(socket.getOutputStream());
-                            eDos.writeUTF("CMD_SEND_FILERESPONSE " + consignee + " Connection was lost, please try again later.!");
+                            String encryString = encryt.encrypt("CMD_SEND_FILERESPONSE " + consignee + " Connection was lost, please try again later.!", secretKey);
+                            eDos.writeUTF(encryString);
 
                             System.out.println(e.getMessage());
                             main.setMyTitle("You are logged in as: " + main.getMyUsername());
