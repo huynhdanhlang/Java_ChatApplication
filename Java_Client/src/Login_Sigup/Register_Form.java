@@ -7,15 +7,9 @@ package Login_Sigup;
 
 import com.mysql.cj.jdbc.result.ResultSetInternalMethods;
 import java.awt.Color;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferByte;
-import java.awt.image.WritableRaster;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.io.InputStream;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -24,9 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.imageio.ImageIO;
 import javax.swing.ButtonGroup;
-import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -36,8 +28,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
  * @author ASUS
  */
 public class Register_Form extends javax.swing.JFrame {
-    private static final int IMG_WIDTH = 40;
-    private static final int IMG_HEIGHT = 40;
+
     /**
      * Creates new form Register_Form
      */
@@ -45,9 +36,7 @@ public class Register_Form extends javax.swing.JFrame {
     ButtonGroup btn = new ButtonGroup();
     //Craete a path image
     String path_image = null;
-    File selected_image=null;
-    private WritableRaster raster;
-    private DataBufferByte data;
+    
     public Register_Form() {
         initComponents();
 
@@ -345,30 +334,6 @@ public class Register_Form extends javax.swing.JFrame {
 //        btn.clearSelection();
 //
 //    }
-    private static BufferedImage resizeImage(BufferedImage originalImage, int type) {
-        BufferedImage resizedImage = new BufferedImage(IMG_WIDTH, IMG_HEIGHT, type);
-        Graphics2D g = resizedImage.createGraphics();
-        g.drawImage(originalImage, 0, 0, IMG_WIDTH, IMG_HEIGHT, null);
-        g.dispose();
- 
-        return resizedImage;
-    }
-    
-    private DataBufferByte imageUpload() throws IOException{
-        BufferedImage originalImage = ImageIO.read(selected_image);
-        int type = originalImage.getType() == 0 ? BufferedImage.TYPE_INT_ARGB : originalImage.getType();
-        
-        BufferedImage resizeImageJpg = resizeImage(originalImage, type);
-//        photo = new ImageIcon(toImage(resizeImageJpg));
-        
-        //converting buffered image to byte array
-        raster = resizeImageJpg.getRaster();
-        data = (DataBufferByte) raster.getDataBuffer();
-        
-        return data;
-        
-    }
-    
     private void jButton_sigupActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sigupActionPerformed
         String full_name = jTextField_fullname.getText();
         String username = jTextField_username.getText();
@@ -383,8 +348,6 @@ public class Register_Form extends javax.swing.JFrame {
             try {
                 if (!checkUsername(username)) {
                     PreparedStatement s;
-                    ResultSetInternalMethods rs;
-
                     String query = "INSERT INTO `user`(`full_name`, `username`, `password`, `phone`, `gender`, `picture`) VALUES (?,?,?,?,?,?)";
 
                     s = MySQL_connect.getConnection().prepareStatement(query);
@@ -394,29 +357,31 @@ public class Register_Form extends javax.swing.JFrame {
                     s.setString(4, phone);
                     s.setString(5, gender);
 
-                    if (path_image != null) {
-//                            InputStream image = new FileInputStream(new File(path_image));
-                        byte[] extractBytes = imageUpload().getData();
-                        s.setBytes(6, extractBytes);
-                    } else {
-                        s.setNull(6, java.sql.Types.NULL);
+                    try {
+                        if (path_image != null) {
+                            InputStream image = new FileInputStream(new File(path_image));
+                            s.setBlob(6, image);
+                        } else {
+                            s.setNull(6, java.sql.Types.NULL);
+                        }
+
+                        if (s.executeUpdate() != 0) {
+                            JOptionPane.showMessageDialog(this, "Account created successfully");
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Create fail! Check your information");
+                        }
+//                        clearFields();
+                        Login_Form log = new Login_Form();
+                        log.setVisible(true);
+                        log.pack();
+                        log.setLocationRelativeTo(null);
+                        this.dispose();
+                    } catch (FileNotFoundException ex) {
+                        Logger.getLogger(Register_Form.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                    if (s.executeUpdate() != 0) {
-                        JOptionPane.showMessageDialog(this, "Account created successfully");
-                    } else {
-                        JOptionPane.showMessageDialog(this, "Create fail! Check your information");
-                    }
-                    //                        clearFields();
-                    Login_Form log = new Login_Form();
-                    log.setVisible(true);
-                    log.pack();
-                    log.setLocationRelativeTo(null);
-                    this.dispose();
 
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Register_Form.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (IOException ex) {
                 Logger.getLogger(Register_Form.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -482,7 +447,6 @@ public class Register_Form extends javax.swing.JFrame {
             path = select_image.getAbsolutePath();
             jLabel_pathimages.setText(path);
             path_image = path;
-            selected_image = select_image;
         }
     }//GEN-LAST:event_jButton_select_imagesActionPerformed
 
@@ -586,8 +550,4 @@ public class Register_Form extends javax.swing.JFrame {
     private javax.swing.JTextField jTextField_phone;
     private javax.swing.JTextField jTextField_username;
     // End of variables declaration//GEN-END:variables
-
-    private String toImage(BufferedImage resizeImageJpg) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
 }

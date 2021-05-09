@@ -3,16 +3,18 @@ package Client_GUI;
 import Encrypt_Decrypt.EncrytDecrypt_Mess;
 import java.awt.Color;
 import java.awt.FlowLayout;
-
+import Login_Sigup.MySQL_connect;
+import com.mysql.cj.jdbc.result.ResultSetInternalMethods;
+import java.awt.Image;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
-import java.net.URL;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -24,7 +26,8 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyledDocument;
 
 public class ClientGUI extends javax.swing.JFrame {
-
+    PreparedStatement s;
+    ResultSetInternalMethods rs;
     String username;
     String host;
     int port;
@@ -35,6 +38,8 @@ public class ClientGUI extends javax.swing.JFrame {
     private String mydownloadfolder = "D:\\";
     final static String secretKey = "secrete";
     EncrytDecrypt_Mess encrypt = new EncrytDecrypt_Mess();
+    private byte[] imagebytes;
+    private Image image;
 
     public ClientGUI() {
         initComponents();
@@ -234,9 +239,6 @@ public class ClientGUI extends javax.swing.JFrame {
             jTextField_ip.setEditable(true);
             jTextField_port.setEditable(true);
         }
-        jButton_connect.setEnabled(false);
-        jTextField_ip.setEditable(false);
-        jTextField_port.setEditable(false);
     }//GEN-LAST:event_jButton_connectActionPerformed
 
     private void jButton_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendActionPerformed
@@ -331,10 +333,20 @@ public class ClientGUI extends javax.swing.JFrame {
     /*
         Get image file path in online list
      */
-    public URL getImageFile() {
+    public ImageIcon getImageFile() throws SQLException {
+        String getUsername = returnusername();
+        String query = "SELECT `picture` FROM `user` WHERE `username` = ?";
+        s = MySQL_connect.getConnection().prepareStatement(query);
+        s.setString(1,getUsername);
+        rs = (ResultSetInternalMethods) s.executeQuery();
+        if(rs.next()){
+            imagebytes = rs.getBytes("picture");
+        }
+        image=getToolkit().createImage(imagebytes);
         
-        URL url = this.getClass().getResource("/images/account.png");
-        return url;
+        Image img = image.getScaledInstance(40,40,Image.SCALE_SMOOTH);
+        ImageIcon icon=new ImageIcon(img);
+        return icon;
     }
 
     /*
@@ -387,14 +399,14 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     //------------Show Online List on TextJpanel
-    public void appendOnlineList(Vector list) {
+    public void appendOnlineList(Vector list) throws SQLException {
         sampleOnlineList(list);  // - Sample Method()
     }
 
     /*
       ************************************  Show Online Sample  *********************************************
      */
-    private void sampleOnlineList(Vector list) {
+    private void sampleOnlineList(Vector list) throws SQLException {
         textpanel_useronline.setEditable(true);
         textpanel_useronline.removeAll();
         textpanel_useronline.setText("");
@@ -405,8 +417,8 @@ public class ClientGUI extends javax.swing.JFrame {
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout(FlowLayout.LEFT));
             panel.setBackground(Color.white);
-            Icon icon = new ImageIcon(this.getClass().getResource("/images/account.png"));
-            JLabel label = new JLabel(icon);
+//            Icon icon = new ImageIcon(this.getClass().getResource("/images/account.png"));
+            JLabel label = new JLabel(getImageFile());
             System.out.println("Online list: " + e);
             label.setText(" " + e);
             panel.add(label);

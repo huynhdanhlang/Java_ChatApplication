@@ -5,7 +5,6 @@
  */
 package Login_Sigup;
 
-import Client_GUI.ClientGUI;
 import com.mysql.cj.jdbc.result.ResultSetInternalMethods;
 import java.awt.Color;
 import javax.swing.BorderFactory;
