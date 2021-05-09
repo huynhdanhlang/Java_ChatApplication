@@ -62,7 +62,7 @@ public class ServerGUI extends javax.swing.JFrame {
         jButton_connect = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTextArea_content = new javax.swing.JTextArea();
-        jButton_connect1 = new javax.swing.JButton();
+        jButton_close = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -88,10 +88,10 @@ public class ServerGUI extends javax.swing.JFrame {
         jTextArea_content.setRows(5);
         jScrollPane1.setViewportView(jTextArea_content);
 
-        jButton_connect1.setText("Close server");
-        jButton_connect1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_close.setText("Close server");
+        jButton_close.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton_connect1ActionPerformed(evt);
+                jButton_closeActionPerformed(evt);
             }
         });
 
@@ -119,7 +119,7 @@ public class ServerGUI extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jButton_connect)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jButton_connect1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                .addComponent(jButton_close, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(28, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -134,7 +134,7 @@ public class ServerGUI extends javax.swing.JFrame {
                     .addComponent(jButton_connect, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextArea_port, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jTextArea_address, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton_connect1, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton_close, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 270, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(17, Short.MAX_VALUE))
@@ -151,12 +151,18 @@ public class ServerGUI extends javax.swing.JFrame {
         t = new Thread(serverThread);
         t.start();
         new Thread(new OnlineListThread(this)).start();
+        jButton_connect.setEnabled(false);
+        jTextArea_address.setEditable(false);
+        jTextArea_port.setEditable(false);
 
     }//GEN-LAST:event_jButton_connectActionPerformed
 
-    private void jButton_connect1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_connect1ActionPerformed
+    private void jButton_closeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_closeActionPerformed
         serverThread.stop();
-    }//GEN-LAST:event_jButton_connect1ActionPerformed
+        jButton_connect.setEnabled(true);
+        jTextArea_address.setEditable(true);
+        jTextArea_port.setEditable(true);
+    }//GEN-LAST:event_jButton_closeActionPerformed
     public void appendMessage(String msg) {
         Date date = new Date();
         jTextArea_content.append(sdf.format(date) + ": " + msg + "\n");
@@ -298,8 +304,8 @@ public class ServerGUI extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton_close;
     private javax.swing.JButton jButton_connect;
-    private javax.swing.JButton jButton_connect1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

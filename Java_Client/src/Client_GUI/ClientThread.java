@@ -57,7 +57,7 @@ public class ClientThread implements Runnable {
                         while (st.hasMoreTokens()) {
                             msg = msg + " " + st.nextToken();
                         }
-                        main.textPanel_append(" " + frm + ":" + msg + "\n");
+                        main.textPanel_append(" " + frm + ": " + msg + "\n");
                         break;
 
                     case "CMD_ADD_USER_ONLINE":
@@ -77,7 +77,7 @@ public class ClientThread implements Runnable {
                         String receiver = st.nextToken();
                         String fname = st.nextToken();
                         int confirm = JOptionPane.showConfirmDialog(main, "From: " + sender + "\nFilename: " + fname + "\nWould you like to Accept?");
-                        main.textPanel_append("This is confirm: "+confirm);
+//                        main.textPanel_append("This is confirm: "+confirm);
                         if (confirm == 0) { // client accepted the request, then inform the sender to send the file now
                             /* Select where to save this file   */
                             main.openFolder();

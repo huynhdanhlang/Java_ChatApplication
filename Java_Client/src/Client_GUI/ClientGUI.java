@@ -230,7 +230,13 @@ public class ClientGUI extends javax.swing.JFrame {
             connect(host, Integer.valueOf(port));
         } catch (BadLocationException ex) {
             Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
+            jButton_connect.setEnabled(true);
+            jTextField_ip.setEditable(true);
+            jTextField_port.setEditable(true);
         }
+        jButton_connect.setEnabled(false);
+        jTextField_ip.setEditable(false);
+        jTextField_port.setEditable(false);
     }//GEN-LAST:event_jButton_connectActionPerformed
 
     private void jButton_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendActionPerformed
@@ -257,7 +263,7 @@ public class ClientGUI extends javax.swing.JFrame {
         if (confirm == 0) {
             try {
                 socket.close();
-                setVisible(false);
+//                setVisible(false);
                 /**
                  * Login Form *
                  */
@@ -266,6 +272,9 @@ public class ClientGUI extends javax.swing.JFrame {
                 System.out.println(e.getMessage());
             }
         }
+        jButton_connect.setEnabled(true);
+        jTextField_ip.setEditable(true);
+        jTextField_port.setEditable(true);
     }//GEN-LAST:event_jButton1ActionPerformed
 
     //Insert messsge into jTextPanel
