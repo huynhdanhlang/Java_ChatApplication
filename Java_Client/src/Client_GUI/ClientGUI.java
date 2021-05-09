@@ -332,6 +332,7 @@ public class ClientGUI extends javax.swing.JFrame {
         Get image file path in online list
      */
     public URL getImageFile() {
+        
         URL url = this.getClass().getResource("/images/account.png");
         return url;
     }
