@@ -44,7 +44,7 @@ public class ClientGUI extends javax.swing.JFrame {
         chatArea.setParagraphAttributes(attr, true);
         jTextField_ip.setText("127.0.0.1");
         jTextField_port.setText("7880");
-
+    
     }
 
     public void initFrame(String username) {
@@ -57,7 +57,7 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     public String returnusername() {
-        return username;
+        return this.username;
     }
 
     public void connect(String host, int port) throws BadLocationException {
@@ -70,7 +70,7 @@ public class ClientGUI extends javax.swing.JFrame {
             /**
              * Send our username *
              */
-            String encrypt_username = encrypt.encrypt("CMD_SHOW_USER_JOIN_IN_CHAT " + username, secretKey);
+            String encrypt_username = encrypt.encrypt("CMD_SHOW_USER_JOIN_IN_CHAT " + returnusername(), secretKey);
             dos.writeUTF(encrypt_username);
             textPanel_append(" Connected" + "\n");
             textPanel_append(" type your message now.!" + "\n");
@@ -345,21 +345,14 @@ public class ClientGUI extends javax.swing.JFrame {
         Get Host
      */
     public String getMyHost() {
-        return this.host;
+        return this.host=jTextField_ip.getText();
     }
 
     /*
         Get Port
      */
     public int getMyPort() {
-        return this.port;
-    }
-
-    /*
-        Get My Username
-     */
-    public String getMyUsername() {
-        return this.username;
+        return this.port=Integer.valueOf(jTextField_port.getText());
     }
 
     /*

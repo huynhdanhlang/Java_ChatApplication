@@ -77,6 +77,7 @@ public class ClientThread implements Runnable {
                         String receiver = st.nextToken();
                         String fname = st.nextToken();
                         int confirm = JOptionPane.showConfirmDialog(main, "From: " + sender + "\nFilename: " + fname + "\nWould you like to Accept?");
+                        main.textPanel_append("This is confirm: "+confirm);
                         if (confirm == 0) { // client accepted the request, then inform the sender to send the file now
                             /* Select where to save this file   */
                             main.openFolder();
@@ -90,7 +91,7 @@ public class ClientThread implements Runnable {
                                 /*  this will create a filesharing socket to handle incoming file and this socket will automatically closed when it's done.  */
                                 Socket fSoc = new Socket(main.getMyHost(), main.getMyPort());
                                 DataOutputStream fdos = new DataOutputStream(fSoc.getOutputStream());
-                                String filesharing ="CMD_HANDLE_FILE_SHARING_SOCKET " + main.getMyUsername();
+                                String filesharing ="CMD_HANDLE_FILE_SHARING_SOCKET " + main.returnusername();
                                 String encrypt_filesharing =encryptdecrypt.encrypt(filesharing, secretKey);
                                 fdos.writeUTF(encrypt_filesharing);
                                 /*  Run Thread for this   */

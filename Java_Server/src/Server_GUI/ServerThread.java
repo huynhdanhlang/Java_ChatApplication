@@ -42,8 +42,7 @@ public class ServerThread implements Runnable {
         try {
             server.close();
             keepGoing = false;
-            System.out.println("Server is now closed..!");
-            System.exit(0);
+            main.appendMessage("Server is now closed..!");
         } catch (IOException e) {
             System.out.println(e.getMessage());
         }

@@ -89,7 +89,7 @@ public class ReceivingFileThread implements Runnable {
                             }
                             fos.flush();
                             fos.close();
-                            main.setMyTitle("You are logged in as: " + main.getMyUsername());
+                            main.setMyTitle("You are logged in as: " + main.returnusername());
                             JOptionPane.showMessageDialog(null, "File has been downloaded to \n'" + path + "'");
                             System.out.println("File was saved: " + path);
                         } catch (IOException e) {
@@ -102,7 +102,7 @@ public class ReceivingFileThread implements Runnable {
                             eDos.writeUTF(encryString);
 
                             System.out.println(e.getMessage());
-                            main.setMyTitle("You are logged in as: " + main.getMyUsername());
+                            main.setMyTitle("You are logged in as: " + main.returnusername());
                             JOptionPane.showMessageDialog(main, e.getMessage(), "Exception", JOptionPane.ERROR_MESSAGE);
                             socket.close();
                         }
