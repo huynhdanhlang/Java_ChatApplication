@@ -5,5 +5,7 @@ A simple chat application.You can create more client in a server
 - Send message
 - Coming soon
   + send file
-  + chat group
+  + chat group(future)
+  + Login
+  + Sign up
   + maybe ...
