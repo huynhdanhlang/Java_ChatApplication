@@ -14,6 +14,7 @@ import java.net.Socket;
 import java.util.StringTokenizer;
 import javax.swing.JOptionPane;
 import Encrypt_Decrypt.EncrytDecrypt_Mess;
+import javax.swing.filechooser.FileNameExtensionFilter;
 public class SendFile extends javax.swing.JFrame {
 
     final static String secretKey = "secrete";
@@ -288,6 +289,8 @@ public class SendFile extends javax.swing.JFrame {
 
     /*   show Open Dialog   */
     public void showOpenDialog() {
+        FileNameExtensionFilter extension = new FileNameExtensionFilter("*Images", "jpg", "png", "jpeg");
+        chooser.addChoosableFileFilter(extension);
         int intval = chooser.showOpenDialog(this);
         if (intval == chooser.APPROVE_OPTION) {
             txtFile.setText(chooser.getSelectedFile().toString());
