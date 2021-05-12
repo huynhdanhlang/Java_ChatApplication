@@ -7,5 +7,6 @@ A simple chat application.You can create more client in a server
 - Send message
 - Send file
 - Coming soon
-  + chat group(future) tính ra cái này nó đã là chat group sẵn luôn rồi đó
+  + chat group(future)
+  + chat solo
   + maybe ...
