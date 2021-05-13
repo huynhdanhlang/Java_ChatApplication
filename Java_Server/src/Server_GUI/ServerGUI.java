@@ -89,6 +89,7 @@ public class ServerGUI extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jTextArea_content);
 
         jButton_close.setText("Close server");
+        jButton_close.setEnabled(false);
         jButton_close.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_closeActionPerformed(evt);
@@ -154,6 +155,7 @@ public class ServerGUI extends javax.swing.JFrame {
         jButton_connect.setEnabled(false);
         jTextArea_address.setEditable(false);
         jTextArea_port.setEditable(false);
+        jButton_close.setEnabled(true);
 
     }//GEN-LAST:event_jButton_connectActionPerformed
 

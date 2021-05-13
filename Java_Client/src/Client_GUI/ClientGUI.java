@@ -84,7 +84,7 @@ public class ClientGUI extends javax.swing.JFrame {
              * Start Client Thread *
              */
             new Thread(new ClientThread(socket, this)).start();
-            jButton1.setEnabled(true);
+            jButton_leave.setEnabled(true);
             // were now connected
             isConnected = true;
 
@@ -108,8 +108,8 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jButton_connect = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jButton_leave = new javax.swing.JButton();
+        jButton_sendfile = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         textpanel_useronline = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -130,6 +130,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jButton_send.setBackground(new java.awt.Color(204, 204, 255));
         jButton_send.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jButton_send.setText("Send Message");
+        jButton_send.setEnabled(false);
         jButton_send.setPreferredSize(new java.awt.Dimension(37, 22));
         jButton_send.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -146,12 +147,12 @@ public class ClientGUI extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 51));
         jLabel3.setText("port:");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(300, 60, 30, 16);
+        jLabel3.setBounds(300, 60, 30, 13);
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 51));
         jLabel4.setText("Server address:");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(80, 60, 90, 16);
+        jLabel4.setBounds(80, 60, 90, 13);
 
         jLabel2.setFont(new java.awt.Font("Myriad Pro", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -168,23 +169,25 @@ public class ClientGUI extends javax.swing.JFrame {
         jPanel1.add(jButton_connect);
         jButton_connect.setBounds(380, 80, 80, 30);
 
-        jButton1.setText("Leave chat");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton_leave.setText("Leave chat");
+        jButton_leave.setEnabled(false);
+        jButton_leave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButton_leaveActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1);
-        jButton1.setBounds(370, 10, 86, 22);
+        jPanel1.add(jButton_leave);
+        jButton_leave.setBounds(370, 10, 81, 21);
 
-        jButton2.setText("Send file");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        jButton_sendfile.setText("Send file");
+        jButton_sendfile.setEnabled(false);
+        jButton_sendfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                jButton_sendfileActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton2);
-        jButton2.setBounds(30, 310, 90, 20);
+        jPanel1.add(jButton_sendfile);
+        jButton_sendfile.setBounds(30, 310, 90, 20);
 
         textpanel_useronline.setEditable(false);
         jScrollPane1.setViewportView(textpanel_useronline);
@@ -215,7 +218,7 @@ public class ClientGUI extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void jButton_sendfileActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendfileActionPerformed
         SendFile s = new SendFile();
         host = jTextField_ip.getText();
         port = Integer.valueOf(jTextField_port.getText());
@@ -226,7 +229,7 @@ public class ClientGUI extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(this, "Unable to establish File Sharing at this moment, please try again later.!", "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_jButton_sendfileActionPerformed
 
     private void jButton_connectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_connectActionPerformed
         String host = jTextField_ip.getText();
@@ -239,6 +242,12 @@ public class ClientGUI extends javax.swing.JFrame {
             jTextField_ip.setEditable(true);
             jTextField_port.setEditable(true);
         }
+        jButton_connect.setEnabled(false);
+        jButton_send.setEnabled(true);
+        jButton_leave.setEnabled(true);
+        jButton_sendfile.setEnabled(true);
+        jTextField_ip.setEditable(false);
+        jTextField_port.setEditable(false);
     }//GEN-LAST:event_jButton_connectActionPerformed
 
     private void jButton_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendActionPerformed
@@ -260,11 +269,17 @@ public class ClientGUI extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_sendActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButton_leaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_leaveActionPerformed
         int confirm = JOptionPane.showConfirmDialog(null, "Logout your Account.?");
         if (confirm == 0) {
             try {
                 socket.close();
+                jButton_leave.setEnabled(false);
+                jButton_send.setEnabled(false);
+                jButton_sendfile.setEnabled(false);  
+                jButton_connect.setEnabled(true);
+                jTextField_ip.setEditable(true);
+                jTextField_port.setEditable(true);
 //                setVisible(false);
                 /**
                  * Login Form *
@@ -274,10 +289,9 @@ public class ClientGUI extends javax.swing.JFrame {
                 System.out.println(e.getMessage());
             }
         }
-        jButton_connect.setEnabled(true);
-        jTextField_ip.setEditable(true);
-        jTextField_port.setEditable(true);
-    }//GEN-LAST:event_jButton1ActionPerformed
+
+
+    }//GEN-LAST:event_jButton_leaveActionPerformed
 
     //Insert messsge into jTextPanel
     public void textPanel_append(String str) throws BadLocationException {
@@ -318,7 +332,6 @@ public class ClientGUI extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(ClientGUI.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             @Override
@@ -440,10 +453,10 @@ public class ClientGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane chatArea;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton_connect;
+    private javax.swing.JButton jButton_leave;
     private javax.swing.JButton jButton_send;
+    private javax.swing.JButton jButton_sendfile;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
