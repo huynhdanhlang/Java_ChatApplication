@@ -328,7 +328,7 @@ public class Login_Form extends javax.swing.JFrame {
             }
 
         } catch (SQLException ex) {
-            Logger.getLogger(Login_Form.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, "Can not connect to database");
         }
     }//GEN-LAST:event_jButton_LoginActionPerformed
 

@@ -440,8 +440,9 @@ public class ClientGUI extends javax.swing.JFrame {
             textpanel_useronline.insertComponent(panel);
             /*  Append Next Line   */
             sampleAppend();
+            
         }
-        textpanel_useronline.setEditable(false);
+//        textpanel_useronline.setEditable(false);
     }
 
     //
@@ -453,8 +454,10 @@ public class ClientGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane chatArea;
-    private javax.swing.JButton jButton_connect;
     private javax.swing.JButton jButton_leave;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    public javax.swing.JButton jButton_connect;
     private javax.swing.JButton jButton_send;
     private javax.swing.JButton jButton_sendfile;
     private javax.swing.JLabel jLabel1;

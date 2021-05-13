@@ -34,7 +34,6 @@ public class ServerGUI extends javax.swing.JFrame {
     /**
      * Server *
      */
-    ServerSocket server;
 
     /**
      * Creates new form ServerGUI
