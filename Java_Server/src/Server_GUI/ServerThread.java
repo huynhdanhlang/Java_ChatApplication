@@ -37,11 +37,10 @@ public class ServerThread implements Runnable {
             main.appendMessage("[ServerThreadIOException]: " + e.getMessage());
         }
     }
-
     public void stop() {
         try {
-            server.close();
             keepGoing = false;
+            server.close();
             main.appendMessage("Server is now closed..!");
         } catch (IOException e) {
             System.out.println(e.getMessage());
