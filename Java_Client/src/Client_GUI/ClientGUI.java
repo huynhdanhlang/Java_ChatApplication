@@ -87,11 +87,20 @@ public class ClientGUI extends javax.swing.JFrame {
             jButton_leave.setEnabled(true);
             // were now connected
             isConnected = true;
+            
+            jTextField_ip.setEditable(false);
+            jTextField_port.setEditable(false);
+            jButton_send.setEnabled(true);
+            jButton_leave.setEnabled(true);
+            jButton_sendfile.setEnabled(true);
+            jButton_connect.setEnabled(false);
 
         } catch (IOException e) {
             isConnected = false;
             JOptionPane.showMessageDialog(this, "Unable to Connect to Server, please try again later.!", "Connection Failed", JOptionPane.ERROR_MESSAGE);
+            jButton_connect.setEnabled(true);
             textPanel_append("[IOException]: " + e.getMessage());
+            
         }
     }
 
@@ -242,12 +251,8 @@ public class ClientGUI extends javax.swing.JFrame {
             jTextField_ip.setEditable(true);
             jTextField_port.setEditable(true);
         }
-        jButton_connect.setEnabled(false);
-        jButton_send.setEnabled(true);
-        jButton_leave.setEnabled(true);
-        jButton_sendfile.setEnabled(true);
-        jTextField_ip.setEditable(false);
-        jTextField_port.setEditable(false);
+
+
     }//GEN-LAST:event_jButton_connectActionPerformed
 
     private void jButton_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendActionPerformed
