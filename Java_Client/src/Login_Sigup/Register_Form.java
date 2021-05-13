@@ -161,12 +161,12 @@ public class Register_Form extends javax.swing.JFrame {
         );
 
         jPanel3.add(Jpanel_title);
-        Jpanel_title.setBounds(150, 0, 136, 41);
+        Jpanel_title.setBounds(150, 0, 136, 51);
 
         jButton_sigup.setBackground(new java.awt.Color(255, 92, 34));
         jButton_sigup.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButton_sigup.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_sigup.setText("Đăng ký");
+        jButton_sigup.setText("Sign up");
         jButton_sigup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton_sigup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -237,12 +237,12 @@ public class Register_Form extends javax.swing.JFrame {
         jRadioButton_male.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jRadioButton_male.setText("Male");
         jPanel3.add(jRadioButton_male);
-        jRadioButton_male.setBounds(130, 250, 47, 19);
+        jRadioButton_male.setBounds(130, 250, 49, 23);
 
         jRadioButton_female.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jRadioButton_female.setText("Female");
         jPanel3.add(jRadioButton_female);
-        jRadioButton_female.setBounds(200, 250, 61, 19);
+        jRadioButton_female.setBounds(200, 250, 63, 23);
 
         jLabel8.setFont(new java.awt.Font("Tahoma", 0, 12)); // NOI18N
         jLabel8.setText("Image");
@@ -256,7 +256,7 @@ public class Register_Form extends javax.swing.JFrame {
             }
         });
         jPanel3.add(jButton_select_images);
-        jButton_select_images.setBounds(130, 280, 100, 22);
+        jButton_select_images.setBounds(130, 280, 100, 21);
 
         jLabel_pathimages.setText("image path");
         jPanel3.add(jLabel_pathimages);
