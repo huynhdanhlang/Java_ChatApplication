@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 package Login_Sigup;
-
+import Client_GUI.ClientGUI;
 import com.mysql.cj.jdbc.MysqlDataSource;
+import java.awt.Component;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -35,7 +35,10 @@ public class MySQL_connect {
         try {
             mydata = datasource.getConnection();
         } catch (SQLException ex) {
-            Logger.getLogger("Get connection -->" + MySQL_connect.class.getName()).log(Level.SEVERE, null, ex);
+            Component a=null;
+            JOptionPane.showMessageDialog(a,"Can not connect to server");
+            ClientGUI gui = new ClientGUI();
+            gui.jButton_connect.setEnabled(true);
         }
         return mydata;
     }

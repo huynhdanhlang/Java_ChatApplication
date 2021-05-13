@@ -239,6 +239,7 @@ public class ClientGUI extends javax.swing.JFrame {
             jTextField_ip.setEditable(true);
             jTextField_port.setEditable(true);
         }
+        jButton_connect.setEnabled(false);
     }//GEN-LAST:event_jButton_connectActionPerformed
 
     private void jButton_sendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_sendActionPerformed
@@ -427,8 +428,9 @@ public class ClientGUI extends javax.swing.JFrame {
             textpanel_useronline.insertComponent(panel);
             /*  Append Next Line   */
             sampleAppend();
+            
         }
-        textpanel_useronline.setEditable(false);
+//        textpanel_useronline.setEditable(false);
     }
 
     //
@@ -442,7 +444,7 @@ public class ClientGUI extends javax.swing.JFrame {
     private javax.swing.JTextPane chatArea;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton_connect;
+    public javax.swing.JButton jButton_connect;
     private javax.swing.JButton jButton_send;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
