@@ -134,7 +134,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jTextField_messagecontent.setToolTipText("text\tType your message here...");
         jPanel1.add(jTextField_messagecontent);
-        jTextField_messagecontent.setBounds(30, 340, 310, 30);
+        jTextField_messagecontent.setBounds(110, 450, 400, 30);
 
         jButton_send.setBackground(new java.awt.Color(204, 204, 255));
         jButton_send.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
@@ -147,21 +147,21 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton_send);
-        jButton_send.setBounds(350, 340, 110, 30);
+        jButton_send.setBounds(530, 450, 170, 30);
         jPanel1.add(jTextField_port);
         jTextField_port.setBounds(270, 80, 80, 30);
         jPanel1.add(jTextField_ip);
-        jTextField_ip.setBounds(30, 80, 210, 30);
+        jTextField_ip.setBounds(20, 80, 220, 30);
 
         jLabel3.setForeground(new java.awt.Color(255, 255, 51));
         jLabel3.setText("port:");
         jPanel1.add(jLabel3);
-        jLabel3.setBounds(300, 60, 30, 13);
+        jLabel3.setBounds(300, 60, 30, 16);
 
         jLabel4.setForeground(new java.awt.Color(255, 255, 51));
         jLabel4.setText("Server address:");
         jPanel1.add(jLabel4);
-        jLabel4.setBounds(80, 60, 90, 13);
+        jLabel4.setBounds(80, 60, 90, 16);
 
         jLabel2.setFont(new java.awt.Font("Myriad Pro", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
@@ -186,7 +186,7 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton_leave);
-        jButton_leave.setBounds(370, 10, 81, 21);
+        jButton_leave.setBounds(570, 80, 86, 30);
 
         jButton_sendfile.setText("Send file");
         jButton_sendfile.setEnabled(false);
@@ -196,34 +196,34 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton_sendfile);
-        jButton_sendfile.setBounds(30, 310, 90, 20);
+        jButton_sendfile.setBounds(19, 450, 80, 30);
 
         textpanel_useronline.setEditable(false);
         jScrollPane1.setViewportView(textpanel_useronline);
 
         jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(350, 120, 110, 180);
+        jScrollPane1.setBounds(530, 120, 170, 290);
 
         chatArea.setEditable(false);
         jScrollPane2.setViewportView(chatArea);
 
         jPanel1.add(jScrollPane2);
-        jScrollPane2.setBounds(30, 122, 310, 180);
+        jScrollPane2.setBounds(20, 122, 490, 290);
         jPanel1.add(jLabel1);
-        jLabel1.setBounds(0, 0, 500, 400);
+        jLabel1.setBounds(-10, 0, 730, 510);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 508, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 732, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 419, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 507, Short.MAX_VALUE)
         );
 
-        setSize(new java.awt.Dimension(508, 441));
+        setSize(new java.awt.Dimension(746, 544));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
@@ -351,11 +351,13 @@ public class ClientGUI extends javax.swing.JFrame {
     /*
         Get image file path in online list
      */
-    public ImageIcon getImageFile() throws SQLException {
-        String getUsername = returnusername();
+    public ImageIcon getImageFile(String username) throws SQLException {
+//        String getUsername = returnusername();
+        System.out.println("This is username: " + username);
+
         String query = "SELECT `picture` FROM `user` WHERE `username` = ?";
         s = MySQL_connect.getConnection().prepareStatement(query);
-        s.setString(1,getUsername);
+        s.setString(1,username);
         rs = (ResultSetInternalMethods) s.executeQuery();
         if(rs.next()){
             imagebytes = rs.getBytes("picture");
@@ -417,37 +419,37 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     //------------Show Online List on TextJpanel
-    public void appendOnlineList(Vector list) throws SQLException {
-        sampleOnlineList(list);  // - Sample Method()
+    public void appendOnlineList(String[] user,ImageIcon[] icon) throws SQLException {
+        sampleOnlineList(user,icon);  // - Sample Method()
     }
 
     /*
       ************************************  Show Online Sample  *********************************************
      */
-    private void sampleOnlineList(Vector list) throws SQLException {
+    private void sampleOnlineList(String[] user,ImageIcon[] icon) throws SQLException {
         textpanel_useronline.setEditable(true);
         textpanel_useronline.removeAll();
         textpanel_useronline.setText("");
-        Iterator i = list.iterator();
-        while (i.hasNext()) {
-            Object e = i.next();
+//        Iterator i = list.iterator();
+        for (int i=0;i<user.length;i++){
             /*  Show Online Username   */
             JPanel panel = new JPanel();
             panel.setLayout(new FlowLayout(FlowLayout.LEFT));
             panel.setBackground(Color.white);
 //            Icon icon = new ImageIcon(this.getClass().getResource("/images/account.png"));
-            JLabel label = new JLabel(getImageFile());
-            System.out.println("Online list: " + e);
-            label.setText(" " + e);
+            JLabel label = new JLabel(icon[i]);
+            System.out.println("Online list: " + user[i]);
+            label.setText(" " + user[i]);
             panel.add(label);
             int len = textpanel_useronline.getDocument().getLength();
             textpanel_useronline.setCaretPosition(len);
             textpanel_useronline.insertComponent(panel);
             /*  Append Next Line   */
-            sampleAppend();
-            
+            sampleAppend();   
         }
-//        textpanel_useronline.setEditable(false);
+            
+        
+        textpanel_useronline.setEditable(false);
     }
 
     //
@@ -459,10 +461,8 @@ public class ClientGUI extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextPane chatArea;
-    private javax.swing.JButton jButton_leave;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     public javax.swing.JButton jButton_connect;
+    private javax.swing.JButton jButton_leave;
     private javax.swing.JButton jButton_send;
     private javax.swing.JButton jButton_sendfile;
     private javax.swing.JLabel jLabel1;

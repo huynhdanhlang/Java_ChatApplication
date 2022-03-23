@@ -8,10 +8,12 @@ import java.io.IOException;
 import java.net.Socket;
 import java.sql.SQLException;
 import java.text.DecimalFormat;
+import java.util.Arrays;
 import java.util.StringTokenizer;
 import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.text.BadLocationException;
 
@@ -63,13 +65,25 @@ public class ClientThread implements Runnable {
 
                     case "CMD_ADD_USER_ONLINE":
                         Vector online = new Vector();
+                        String[] user = null;
+                        user = decrypt_data.split(" ");
+                        user = Arrays.copyOfRange(user, 1, user.length);
+                        ImageIcon[] icon= new ImageIcon[user.length];
                         while (st.hasMoreTokens()) {
+                            
                             String list = st.nextToken();
                             if (!list.equalsIgnoreCase(main.returnusername())) {
                                 online.add(list);
                             }
                         }
-                        main.appendOnlineList(online);
+                        synchronized(this){
+                            for (int i = 0; i< user.length; i++){  
+                        icon[i] = main.getImageFile(user[i]);
+
+                        }
+                            this.notify();
+                        }
+                        main.appendOnlineList(user,icon);
                         break;
 
                     //  This will inform the client that there's a file receive, Accept or Reject the file  
