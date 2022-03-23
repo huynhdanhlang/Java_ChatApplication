@@ -34,7 +34,7 @@ public class OnlineListThread implements Runnable {
                      * CMD_ADD_USER_ONLINE [user1] [user2] [user3] *
                      */
                     if (msg.length() > 0) {
-                        String encrypt_msg = encrypt.encrypt("CMD_ADD_USER_ONLINE " + msg, secretKey);
+                        String encrypt_msg = encrypt.encrypt("CMD_ADD_USER_ONLINE" + msg, secretKey);
                         dos.writeUTF(encrypt_msg);
                     }
                 }
