@@ -69,13 +69,14 @@ public class ClientThread implements Runnable {
                         user = decrypt_data.split(" ");
                         user = Arrays.copyOfRange(user, 1, user.length);
                         ImageIcon[] icon= new ImageIcon[user.length];
-                        while (st.hasMoreTokens()) {
-                            
-                            String list = st.nextToken();
-                            if (!list.equalsIgnoreCase(main.returnusername())) {
-                                online.add(list);
-                            }
-                        }
+                        
+//                        while (st.hasMoreTokens()) {
+//                            
+//                            String list = st.nextToken();
+//                            if (!list.equalsIgnoreCase(main.returnusername())) {
+//                                online.add(list);
+//                            }
+//                        }
                         synchronized(this){
                             for (int i = 0; i< user.length; i++){  
                         icon[i] = main.getImageFile(user[i]);
