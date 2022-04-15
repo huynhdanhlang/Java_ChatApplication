@@ -165,9 +165,9 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Myriad Pro", 1, 48)); // NOI18N
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel2.setText("Chat");
+        jLabel2.setText("LocalChat");
         jPanel1.add(jLabel2);
-        jLabel2.setBounds(10, 10, 120, 40);
+        jLabel2.setBounds(10, 10, 240, 40);
 
         jButton_connect.setText("Connect");
         jButton_connect.addActionListener(new java.awt.event.ActionListener() {

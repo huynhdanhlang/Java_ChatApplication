@@ -64,7 +64,7 @@ public class ClientThread implements Runnable {
                         break;
 
                     case "CMD_ADD_USER_ONLINE":
-                        Vector online = new Vector();
+//                        Vector online = new Vector();
                         String[] user = null;
                         user = decrypt_data.split(" ");
                         user = Arrays.copyOfRange(user, 1, user.length);
@@ -82,9 +82,10 @@ public class ClientThread implements Runnable {
                         icon[i] = main.getImageFile(user[i]);
 
                         }
-                            this.notify();
+                            this.notifyAll();
+                            main.appendOnlineList(user,icon);
+
                         }
-                        main.appendOnlineList(user,icon);
                         break;
 
                     //  This will inform the client that there's a file receive, Accept or Reject the file  
