@@ -84,21 +84,21 @@ public class ReceivingFileThread implements Runnable {
                             while ((count = bis.read(buffer)) != -1) {
                                 percent = percent + count;
                                 int p = (percent / filesize);
-                                main.setMyTitle("Downloading File  " + p + "%");
+                                main.setMyTitle("Đang tải file " + p + "%");
                                 fos.write(buffer, 0, count);
                             }
                             fos.flush();
                             fos.close();
-                            main.setMyTitle("You are logged in as: " + main.returnusername());
-                            JOptionPane.showMessageDialog(null, "File has been downloaded to \n'" + path + "'");
-                            System.out.println("File was saved: " + path);
+                            main.setMyTitle("Bạn đang đăng nhập: " + main.returnusername());
+                            JOptionPane.showMessageDialog(null, "Tệp đã được tải vào \n'" + path + "'");
+                            System.out.println("File đã được lưu: " + path);
                         } catch (IOException e) {
                             /*
                                 Send back an error message to sender
                                 Format: CMD_SEND_FILERESPONSE [username] [Message]
                              */
                             DataOutputStream eDos = new DataOutputStream(socket.getOutputStream());
-                            String encryString = encryt.encrypt("CMD_SEND_FILERESPONSE " + consignee + " Connection was lost, please try again later.!", secretKey);
+                            String encryString = encryt.encrypt("CMD_SEND_FILERESPONSE " + consignee + " Kết nối bị mất, vui lòng thử lại sau.!", secretKey);
                             eDos.writeUTF(encryString);
 
                             System.out.println(e.getMessage());

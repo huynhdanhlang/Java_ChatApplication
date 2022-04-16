@@ -142,7 +142,7 @@ public class Login_Form extends javax.swing.JFrame {
         jButton_Login.setBackground(new java.awt.Color(51, 102, 255));
         jButton_Login.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButton_Login.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_Login.setText("Login");
+        jButton_Login.setText("Đăng nhập");
         jButton_Login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton_Login.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {

@@ -85,7 +85,7 @@ public class Login_Form extends javax.swing.JFrame {
 
         jLabel_signup.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         jLabel_signup.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel_signup.setText(">>Create a new account<<");
+        jLabel_signup.setText(">>Tạo tài khoản mới<<");
         jLabel_signup.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jLabel_signup.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -158,12 +158,12 @@ public class Login_Form extends javax.swing.JFrame {
         );
 
         jPanel3.add(Jpanel_title);
-        Jpanel_title.setBounds(126, 0, 121, 51);
+        Jpanel_title.setBounds(126, 0, 121, 41);
 
         jButton_Login.setBackground(new java.awt.Color(51, 102, 255));
         jButton_Login.setFont(new java.awt.Font("Times New Roman", 0, 18)); // NOI18N
         jButton_Login.setForeground(new java.awt.Color(255, 255, 255));
-        jButton_Login.setText("Login");
+        jButton_Login.setText("Đăng nhập");
         jButton_Login.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         jButton_Login.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
@@ -179,7 +179,7 @@ public class Login_Form extends javax.swing.JFrame {
             }
         });
         jPanel3.add(jButton_Login);
-        jButton_Login.setBounds(130, 220, 120, 29);
+        jButton_Login.setBounds(130, 220, 120, 27);
 
         jPasswordField_password.setFont(new java.awt.Font("Times New Roman", 0, 14)); // NOI18N
         jPasswordField_password.setForeground(new java.awt.Color(167, 171, 176));

@@ -66,7 +66,7 @@ public class ClientGUI extends javax.swing.JFrame {
     }
 
     public void connect(String host, int port) throws BadLocationException {
-        textPanel_append(" Connecting........");
+        textPanel_append(" Đang kết nối........");
         try {
 
             socket = new Socket(host, port);
@@ -77,8 +77,8 @@ public class ClientGUI extends javax.swing.JFrame {
              */
             String encrypt_username = encrypt.encrypt("CMD_SHOW_USER_JOIN_IN_CHAT " + returnusername(), secretKey);
             dos.writeUTF(encrypt_username);
-            textPanel_append(" Connected" + "\n");
-            textPanel_append(" type your message now.!" + "\n");
+            textPanel_append(" Đã kết nối" + "\n");
+            textPanel_append(" Bạn có thể trò chuyện ngay bây giờ.!" + "\n");
 
             /**
              * Start Client Thread *
@@ -97,7 +97,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
         } catch (IOException e) {
             isConnected = false;
-            JOptionPane.showMessageDialog(this, "Unable to Connect to Server, please try again later.!", "Connection Failed", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, " Không thể kết nối với máy chủ, vui lòng thử lại sau.!", "Kết nối thất bại", JOptionPane.ERROR_MESSAGE);
             jButton_connect.setEnabled(true);
             textPanel_append("[IOException]: " + e.getMessage());
             
@@ -138,7 +138,7 @@ public class ClientGUI extends javax.swing.JFrame {
 
         jButton_send.setBackground(new java.awt.Color(204, 204, 255));
         jButton_send.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
-        jButton_send.setText("Send Message");
+        jButton_send.setText("Gửi");
         jButton_send.setEnabled(false);
         jButton_send.setPreferredSize(new java.awt.Dimension(37, 22));
         jButton_send.addActionListener(new java.awt.event.ActionListener() {
@@ -169,7 +169,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jPanel1.add(jLabel2);
         jLabel2.setBounds(10, 10, 240, 40);
 
-        jButton_connect.setText("Connect");
+        jButton_connect.setText("Kết nối");
         jButton_connect.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton_connectActionPerformed(evt);
@@ -178,7 +178,7 @@ public class ClientGUI extends javax.swing.JFrame {
         jPanel1.add(jButton_connect);
         jButton_connect.setBounds(380, 80, 80, 30);
 
-        jButton_leave.setText("Leave chat");
+        jButton_leave.setText("Thoát phòng chat");
         jButton_leave.setEnabled(false);
         jButton_leave.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -186,9 +186,9 @@ public class ClientGUI extends javax.swing.JFrame {
             }
         });
         jPanel1.add(jButton_leave);
-        jButton_leave.setBounds(570, 80, 86, 30);
+        jButton_leave.setBounds(550, 80, 124, 30);
 
-        jButton_sendfile.setText("Send file");
+        jButton_sendfile.setText("Gửi file");
         jButton_sendfile.setEnabled(false);
         jButton_sendfile.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -236,7 +236,7 @@ public class ClientGUI extends javax.swing.JFrame {
             s.setVisible(true);
             attachmentOpen = true;
         } else {
-            JOptionPane.showMessageDialog(this, "Unable to establish File Sharing at this moment, please try again later.!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, " Không thể thiết lập Chia sẻ Tệp tại thời điểm này, vui lòng thử lại sau.!", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton_sendfileActionPerformed
 
@@ -265,7 +265,7 @@ public class ClientGUI extends javax.swing.JFrame {
             jTextField_messagecontent.setText("");
         } catch (IOException e) {
             try {
-                textPanel_append(" Unable to Send Message now, Server is not available at this time please try again later or Restart this Application.!");
+                textPanel_append(" Không thể gửi tin nhắn ngay bây giờ, Máy chủ không khả dụng tại thời điểm này, vui lòng thử lại sau hoặc Khởi động lại ứng dụng này.!");
             } catch (BadLocationException ex) {
                 Logger.getLogger(ClientGUI.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -275,7 +275,7 @@ public class ClientGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton_sendActionPerformed
 
     private void jButton_leaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_leaveActionPerformed
-        int confirm = JOptionPane.showConfirmDialog(null, "Logout your Account.?");
+        int confirm = JOptionPane.showConfirmDialog(null, "Bạn có muốn thoát phòng chat?","Thông báo",JOptionPane.OK_CANCEL_OPTION);
         if (confirm == 0) {
             try {
                 socket.close();

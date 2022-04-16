@@ -93,7 +93,9 @@ public class ClientThread implements Runnable {
                         String sender = st.nextToken();
                         String receiver = st.nextToken();
                         String fname = st.nextToken();
-                        int confirm = JOptionPane.showConfirmDialog(main, "From: " + sender + "\nFilename: " + fname + "\nWould you like to Accept?");
+//                      int confirm = JOptionPane.showConfirmDialog(main, "Từ: " + sender + "\nTên file: " + fname + "\nBạn có muốn chấp nhận file này?");
+                        int confirm = JOptionPane.showConfirmDialog(main, "Từ: " + sender + "\nTên file: " + fname + "\nBạn có muốn chấp nhận file này?","Thông báo",JOptionPane.OK_CANCEL_OPTION);
+
 //                        main.textPanel_append("This is confirm: "+confirm);
                         if (confirm == 0) { // client accepted the request, then inform the sender to send the file now
                             /* Select where to save this file   */
@@ -120,7 +122,7 @@ public class ClientThread implements Runnable {
                             try {
                                 dos = new DataOutputStream(socket.getOutputStream());
                                 // Format:  CMD_SEND_FILE_ERROR [ToSender] [Message]
-                                String format = "CMD_SEND_FILE_ERROR " + sender + " Client rejected your request or connection was lost.!";
+                                String format = "CMD_SEND_FILE_ERROR " + sender + " Người dùng đã từ chối yêu cầu của bạn hoặc kết nối đã bị mất.!";
                                 String encrypt_format = encryptdecrypt.encrypt(format, secretKey);
                                 dos.writeUTF(encrypt_format);
                             } catch (IOException e) {
@@ -136,7 +138,7 @@ public class ClientThread implements Runnable {
             }
         } catch (IOException e) {
             try {
-                main.textPanel_append(" Server Connection was lost, please try again later.!");
+                main.textPanel_append(" Bạn đã thoát khỏi phòng chat");
             } catch (BadLocationException ex) {
                 Logger.getLogger(ClientThread.class.getName()).log(Level.SEVERE, null, ex);
             }
